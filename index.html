@@ -1,0 +1,558 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ALTHURAYA - Venture Builder</title>
+  <link rel="icon" type="image/png" href="/assets/images/logo.png">
+
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Bellefair&family=Cairo:wght@200..1000&family=Oxanium:wght@200..800&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+
+<body>
+  <!-- BACKGROUND LAYERS ------------------------------------------------------------------------------------------------------------------------>
+  <div class="bg-wrap" aria-hidden="true">
+    <canvas id="stars-canvas"></canvas>
+    <span class="glass-rect gr1"></span>
+    <span class="glass-rect gr2"></span>
+    <span class="glass-rect gr3"></span>
+  </div>
+
+  <!-- NAVBAR ----------------------------------------------------------------------------------------------------------------------------------->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="#home">
+          <img src="/assets/images/logo.png" class="logo-img" alt="شعار الثريا" data-alt-ar="شعار الثريا"
+            data-alt-en="Althuraya Logo" />
+        </a>
+      </div>
+
+      <ul class="nav-menu" id="nav-menu">
+        <li class="nav-item">
+          <a href="#home" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+        </li>
+        <li class="nav-item">
+          <a href="#projects" class="nav-link" data-ar="المشاريع" data-en="Ventures">المشاريع</a>
+        </li>
+        <li class="nav-item">
+          <a href="#methodology" class="nav-link" data-ar="منهجيتنا" data-en="Approach">منهجيتنا</a>
+        </li>
+        <li class="nav-item">
+          <a href="#impact" class="nav-link" data-ar="أثرنا" data-en="Our Impact">أثرنا</a>
+        </li>
+        <li class="nav-item">
+          <a href="#contact" class="nav-link" data-ar="تواصل" data-en="Contact">تواصل</a>
+        </li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="lang-toggle" type="button" data-lang="ar" aria-label="Toggle Language">
+          <span class="lang-option active">AR</span>
+          <span class="lang-separator">|</span>
+          <span class="lang-option">EN</span>
+        </button>
+      </div>
+
+      <div class="hamburger" aria-label="menu" role="button" tabindex="0" aria-controls="nav-menu"
+        aria-expanded="false">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HOME ------------------------------------------------------------------------------------------------------------------------------------>
+  <section id="home" class="section">
+    <h1 class="hero-title" data-ar-brand="الثريا" data-ar-rest=".. حيث يولد الاتجاه" data-en-brand="Althuraya"
+      data-en-rest=".. where direction is born">
+      <span class="brand-gradient">الثريا</span> .. حيث يولد الاتجاه
+    </h1>
+
+    <p data-ar="شريكك الاستراتيجي في تحويل الأفكار الجريئة إلى كيانات اقتصادية رائدة، من خلال الاستثمار الذكي والدعم التشغيلي المتكامل"
+      data-en="Your strategic partner in transforming bold ideas into leading economic entities through smart investment and integrated operational support.">
+      شريكك الاستراتيجي في تحويل الأفكار الجريئة إلى كيانات اقتصادية رائدة، من خلال الاستثمار الذكي والدعم التشغيلي
+      المتكامل
+    </p>
+
+    <div class="hero-buttons">
+      <button class="main-btn" type="button" data-ar="استعراض المشاريع" data-en="Explore Ventures">استعراض
+        المشاريع</button>
+      <button class="secondary-btn" type="button" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</button>
+    </div>
+  </section>
+
+  <!-- PARTNERS (between HERO and PROJECTS) ----------------------------------------------------------------------------------------------------------------->
+  <section class="partners-section" aria-label="Success Partners">
+    <h1 class="partners-label" data-ar="شركاء النجاح" data-en="Success Partners">شركاء النجاح</h1>
+
+    <div class="partners-marquee">
+      <div class="partners-track" id="partnersTrack">
+        <img src="/assets/images/logo-Ministry-of-Industry.png" class="partner-logo" alt="وزارة الصناعة"
+          style="height: 150px;">
+        <img src="/assets/images/logo-NIDLP.png" class="partner-logo" alt="ندلب">
+        <img src="/assets/images/logo-ministry-of-communications.png" class="partner-logo" alt="وزارة الاتصالات">
+        <img src="/assets/images/logo-JADA30.png" class="partner-logo" alt="جادة 30" style="height: 150px;">
+        <img src="/assets/images/logo-social-development-bank.png" class="partner-logo" alt="بنك التنمية">
+        <img src="/assets/images/logo-munshaat.png" class="partner-logo" alt="منشآت">
+
+        <img src="/assets/images/logo-Ministry-of-Industry.png" class="partner-logo" alt="وزارة الصناعة"
+          style="height: 150px;">
+        <img src="/assets/images/logo-NIDLP.png" class="partner-logo" alt="ندلب">
+        <img src="/assets/images/logo-ministry-of-communications.png" class="partner-logo" alt="وزارة الاتصالات">
+        <img src="/assets/images/logo-JADA30.png" class="partner-logo" alt="جادة 30" style="height: 150px;">
+        <img src="/assets/images/logo-social-development-bank.png" class="partner-logo" alt="بنك التنمية">
+        <img src="/assets/images/logo-munshaat.png" class="partner-logo" alt="منشآت">
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PROJECTS ---------------------------------------------------------------------------------------------------------->
+
+  <section id="projects" class="section fp2" aria-label="Featured projects">
+    <!-- <h1  data-ar="مشاريعنا" data-en="Our Ventures">مشاريعنا</h1> -->
+    <div class="fp2-wrap">
+
+      <!-- LEFT: STACK -->
+      <div class="fp2-visual" aria-label="Project stack">
+        <div class="fp2-stack" id="fp2Stack">
+          <!-- cards -->
+          <button class="fp2-card" style="--accent:#ff8cd194;" data-ar-title="بيوتي كوبز" data-en-title="Beauty Cops"
+            data-ar-desc=" منصة تقنية تعمل على دمج الذكاء الاصطناعي مع عالم التجميل، لجعل المكونات، التركيبات، والمنتجات أكثر فهمًا، أكثر شفافية، وأكثر أمانًا لكل من المستخدمين والجهات العاملة في هذا القطاع."
+            data-en-desc="A technology platform that integrates artificial intelligence with the beauty industry, making ingredients, formulations, and products more understandable, more transparent, and safer for both consumers and professionals working in this sector"
+            type="button">
+            <img src="/assets/images/beauty-cops-logo.png" alt="Beauty Cops" />
+          </button>
+
+          <button class="fp2-card " style="--accent:#aa60ff8b;" data-ar-title="متجر الثريا"
+            data-en-title="Althuraya Store"
+            data-ar-desc="منصة رقمية متخصصة في تصميم وإدارة الدعوات الإلكترونية بأسلوب عصري وتجربة استخدام أنيقة، تتيح إنشاء دعوات مخصصة بسهولة، مع حلول ذكية للتوزيع، التنظيم، والمتابعة، لتقديم تجربة متكاملة تناسب المناسبات الخاصة والفعاليات الحديثة"
+            data-en-desc="Digital platform specialized in designing and managing electronic invitations with a modern style and elegant user experience, enabling easy creation of customized invitations, with smart solutions for distribution, organization, and tracking to provide a complete experience tailored to special occasions and modern events."
+            type="button">
+            <img src="/assets/images/althuraya-logo.png" alt="Althuraya Store"
+              style="filter: brightness(0) invert(1);" />
+          </button>
+
+          <button class="fp2-card" style="--accent: #a7feeb87;" 
+            data-ar-title="الثريا لتقنيات وحلول أشباه الموصلات"
+            data-en-title="ASTS"
+            data-ar-desc="نطوّر أنظمة تدريب، اختبار، ومحاكاة تحاكي الواقع الصناعي لصناعة أشباه الموصلات — من المختبر إلى التطبيق العملي."
+            data-en-desc="We develop training, testing, and simulation systems that mirror real-world semiconductor manufacturing — from lab environments to real-world application."
+            type="button">
+            <img src="/assets/images/ASTS-logo.png" alt="ASTS" />
+          </button>
+        
+        <button class="fp2-card" style="--accent:#0055ff86;" 
+          data-ar-title="مشاريع خاصة" 
+          data-en-title="Private Projects"
+          data-ar-desc="ننـشئ وندير عدة مشاريع خاصة في قطاع التقنية المالية وعدد من القطاعات الواعدة الأخرى، يتم تطويرها داخليًا من الفكرة إلى المنتج مع التركيز على حلول عملية قابلة للنمو."
+          data-en-desc="We build and manage a set of private internal projects across fintech and other promising sectors, developed from concept to product with a focus on practical, scalable solutions."
+          type="button">
+          <img src="/assets/icons/icon-privateprojects.png" alt="Private Projects" />
+        </button>
+      </div>
+
+        <!--SMART BUDGET (commented out for now)
+        <button class="fp2-card"
+          style="--accent:#4da3ff93;"
+          data-ar-title="سمارت بدجت"
+          data-en-title="Smart Budget"
+          data-ar-desc= "منصة مالية ذكية تساعد الأفراد والشركات على إدارة الميزانيات بوضوح ودقة، من خلال تحليل البيانات، تتبع المصروفات، وتقديم رؤى ذكية تدعم اتخاذ قرارات مالية أفضل."
+          data-en-desc="A smart financial platform that helps individuals and businesses manage budgets with clarity and precision, using data analysis, expense tracking, and intelligent insights to support better financial decision-making."
+          type="button">
+          <img src="/assets/images/smart-budget-logo.png" alt="Smart Budget" />
+        </button> -->
+
+        <!-- Add more project cards as needed -->
+
+
+        <div class="fp2-controls" aria-label="Project controls">
+          <button class="fp2-nav fp2-prev" type="button" aria-label="Previous">‹</button>
+          <div class="fp2-dots" id="fp2Dots" aria-hidden="true"></div>
+          <button class="fp2-nav fp2-next" type="button" aria-label="Next">›</button>
+        </div>
+      </div>
+
+      <!-- RIGHT: TEXT -->
+      <div class="fp2-info">
+        <h1 class="fp2-title" id="fp2Title">منصة أجير</h1>
+        <p class="fp2-desc" id="fp2Desc">
+          برنامج يهدف إلى تسهيل وصول المنشآت إلى القوى العاملة في السوق السعودي...
+        </p>
+        <a class="fp2-more" href="#contact" data-ar="اكتشف المزيد >" data-en="Explore more >">اكتشف المزيد</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- METHODOLOGY ----------------------------------------------------------------------------------------------------------------------------------->
+  <section id="methodology" class=" how-section">
+    <div class="how-wrap">
+      <h1 class="how-title" data-ar="كيف نعمل" data-en="How We Work">كيف نعمل</h1>
+      <p class="how-subtitle" data-ar="منهجية مُثبتة من الفكرة إلى التوسع"
+        data-en="A proven methodology from idea to scale">
+        منهجية مُثبتة من الفكرة إلى التوسع
+      </p>
+
+      <div class="how-grid">
+        <!-- 1 -->
+        <article class="how-card is-highlight">
+          <div class="how-icon">
+            <img src="/assets/icons/methodology1.png" alt="" aria-hidden="true">
+          </div>
+          <h3 class="how-card-title" data-ar="الاستكشاف" data-en="Exploration">الاستكشاف</h3>
+          <p class="how-card-text" data-ar="تحليل الثغرات في السوق واقتناص الفرص النوعية"
+            data-en="Analyzing market gaps and capturing quality opportunities">
+            تحليل الثغرات في السوق واقتناص الفرص النوعية
+          </p>
+        </article>
+
+        <!-- 2 -->
+        <article class="how-card is-highlight">
+          <div class="how-icon">
+            <img src="/assets/icons/methodology2.png" alt="" aria-hidden="true">
+          </div>
+          <h3 class="how-card-title" data-ar="التحقق" data-en="Validation">التحقق</h3>
+          <p class="how-card-text" data-ar="بناء النماذج الأولية واختبار الجدوى بأدوات دقيقة"
+            data-en="Building prototypes and testing feasibility with precise tools">
+            بناء النماذج الأولية واختبار الجدوى بأدوات دقيقة
+          </p>
+        </article>
+
+        <!-- 3 -->
+        <article class="how-card is-highlight">
+          <div class="how-icon">
+            <img src="/assets/icons/methodology3.png" alt="" aria-hidden="true">
+          </div>
+          <h3 class="how-card-title" data-ar="التأسيس" data-en="Foundation">التأسيس</h3>
+          <p class="how-card-text" data-ar="إطلاق المنتج الكامل عبر فرق هندسية عالية التأهيل"
+            data-en="Launching the complete product through highly qualified engineering teams">
+            إطلاق المنتج الكامل عبر فرق هندسية عالية التأهيل
+          </p>
+        </article>
+
+        <!-- 4 -->
+        <article class="how-card is-highlight">
+          <div class="how-icon">
+            <img src="/assets/icons/methodology4.png" alt="" aria-hidden="true">
+          </div>
+          <h3 class="how-card-title" data-ar="التوسع" data-en="Expansion">التوسع</h3>
+          <p class="how-card-text" data-ar="قيادة استراتيجيات النمو والوصول إلى الأسواق العالمية"
+            data-en="Leading growth strategies and reaching global markets">
+            قيادة استراتيجيات النمو والوصول إلى الأسواق العالمية
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- IMPACT ------------------------------------------------------------------------------------------------------------------------------------->
+  <section id="impact" class="section impact-section">
+    <div class="impact-wrap">
+
+      <h1 class="impact-title" data-ar="أثرنا" data-en="Our Impact">أثرنا</h1>
+
+      <p class="impact-subtitle" data-ar="قياس النجاح من خلال نتائج ملموسة"
+        data-en="Measuring success through meaningful outcomes">
+        قياس النجاح من خلال نتائج ملموسة
+      </p>
+
+      <div class="impact-grid">
+
+        <article class="impact-card">
+          <div class="impact-number" data-target="12">0</div>
+          <p class="impact-text" data-ar="كيان تم تأسيسه" data-en="Entities Established">
+            كيان تم تأسيسه
+          </p>
+        </article>
+
+        <article class="impact-card">
+          <div class="impact-number" data-target="35">0</div>
+          <p class="impact-text" data-ar="حل تشغيلي أُطلق بنجاح" data-en="Operational Solutions Launched">
+            حل تشغيلي أُطلق بنجاح
+          </p>
+        </article>
+
+        <article class="impact-card">
+          <div class="impact-number" data-target="25" data-prefix="$" data-suffix="M">0</div>
+          <p class="impact-text" data-ar="تمويل استراتيجي تم جمعه" data-en="Strategic Funding Raised">
+            تمويل استراتيجي تم جمعه
+          </p>
+        </article>
+
+        <article class="impact-card">
+          <div class="impact-number" data-target="200">0</div>
+          <p class="impact-text" data-ar="وظيفة تم خلقها" data-en="Jobs Created">
+            وظيفة تم خلقها
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ ---------------------------------------------------------------------------------------------------------------------------------------->
+  <section id="faq" class="section faq-section" aria-label="Frequently Asked Questions">
+    <div class="faq-head">
+      <h1 class="faq-title" data-en="Frequently Asked Questions" data-ar="الأسئلة الشائعة">Frequently Asked Questions
+        </h2>
+        <p class="faq-sub" data-en="Everything you need to know about working with us"
+          data-ar="كل ما تحتاج معرفته عن العمل معنا">
+          Everything you need to know about working with us
+        </p>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary class="faq-q">
+          <span data-en="What is a venture studio and how is it different from a VC?"
+            data-ar="ما هو استوديو المشاريع وكيف يختلف عن رأس المال الجريء؟">
+            What is a venture studio and how is it different from a VC?
+          </span>
+          <span class="faq-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-a"
+          data-en="A venture studio builds companies hands-on (team, product, operations) while VCs primarily fund and advise. We co-create ventures from idea to launch and beyond."
+          data-ar="استوديو المشاريع يبني الشركات عمليًا (فريق، منتج، تشغيل) بينما رأس المال الجريء يركز غالبًا على التمويل والإرشاد. نحن نشارك في بناء المشروع من الفكرة حتى الإطلاق وما بعده.">
+          A venture studio builds companies hands-on (team, product, operations) while VCs primarily fund and advise. We
+          co-create ventures from idea to launch and beyond.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">
+          <span data-en="What sectors do you focus on?" data-ar="ما هي القطاعات التي تركزون عليها؟">
+            What sectors do you focus on?
+          </span>
+          <span class="faq-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-a"
+          data-en="We focus on ventures where we can add deep operating value—typically digital products, AI-enabled platforms, fintech, B2B SaaS, and deep-tech when aligned with our capabilities."
+          data-ar="نركز على المشاريع التي نستطيع فيها إضافة قيمة تشغيلية حقيقية—عادةً المنتجات الرقمية، منصات مدعومة بالذكاء الاصطناعي، الفنتك، حلول B2B SaaS، وأحيانًا الديب تك عند توافقها مع قدراتنا.">
+          We focus on ventures where we can add deep operating value—typically digital products, AI-enabled platforms,
+          fintech, B2B SaaS, and deep-tech when aligned with our capabilities.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">
+          <span data-en="What equity stake do you typically take?" data-ar="ما هي حصة الملكية التي تأخذونها عادة؟">
+            What equity stake do you typically take?
+          </span>
+          <span class="faq-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-a"
+          data-en="It depends on stage and the level of support. We structure fair, transparent terms based on time, capital, and the operational resources committed."
+          data-ar="يعتمد ذلك على مرحلة المشروع ومستوى الدعم. نضع شروطًا عادلة وواضحة بناءً على الوقت ورأس المال والموارد التشغيلية المقدمة.">
+          It depends on stage and the level of support. We structure fair, transparent terms based on time, capital, and
+          the operational resources committed.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">
+          <span data-en="Do you invest in early-stage startups?" data-ar="هل تستثمرون في الشركات الناشئة المبكرة؟">
+            Do you invest in early-stage startups?
+          </span>
+          <span class="faq-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-a"
+          data-en="Yes—especially at idea to MVP stages where our studio model adds the most value through building, validating, and launching."
+          data-ar="نعم—خصوصًا من مرحلة الفكرة إلى بناء النموذج الأولي (MVP) حيث يضيف نموذج الاستوديو أكبر قيمة عبر البناء والتحقق والإطلاق.">
+          Yes—especially at idea to MVP stages where our studio model adds the most value through building, validating,
+          and launching.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">
+          <span data-en="How can I apply to partner with Althuraya?" data-ar="كيف يمكنني التقديم للشراكة مع الثريا؟">
+            How can I apply to partner with Althuraya?
+          </span>
+          <span class="faq-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-a"
+          data-en="Send us your pitch (problem, solution, market, traction, and team). If it’s a fit, we’ll schedule a short call and share next steps."
+          data-ar="أرسل لنا عرضك (المشكلة، الحل، السوق، التقدم، الفريق). إذا كان مناسبًا، نحدد اتصالًا سريعًا ونشارك الخطوات التالية.">
+          Send us your pitch (problem, solution, market, traction, and team). If it’s a fit, we’ll schedule a short call
+          and share next steps.
+        </div>
+      </details>
+    </div>
+  </section>
+
+
+  <!-- CONTACT -------------------------------------------------------------------------------------------------------------------------------------->
+  <section id="contact" class="section contact-section">
+    <div class="contact-wrap">
+      <!-- INFO -->
+      <div class="contact-info">
+        <h1 class="contact-title" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</h1>
+        <p class="contact-subtitle" data-ar="فريقنا جاهز للإجابة على استفساراتكم ومناقشة آفاق التعاون المشترك."
+          data-en="Our team is ready to answer your inquiries and discuss collaboration opportunities.">
+          فريقنا جاهز للإجابة على استفساراتكم ومناقشة آفاق التعاون المشترك.
+        </p>
+
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 20V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v15" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" />
+                <path d="M8 7h3M8 11h3M8 15h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                <path d="M19 20v-9a2 2 0 0 0-2-2h-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div class="contact-text">
+              <h3 data-ar="المقر الرئيسي" data-en="Headquarters">المقر الرئيسي</h3>
+              <p data-ar="الرياض، المملكة العربية السعودية" data-en="Riyadh, Kingdom of Saudi Arabia">
+                الرياض، المملكة العربية السعودية
+              </p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M6.5 4.5l3 2.2c.6.45.8 1.26.46 1.93l-1 2.01a1 1 0 0 0 .23 1.16l3.44 3.44a1 1 0 0 0 1.16.23l2.01-1c.67-.34 1.48-.14 1.93.46l2.2 3c.5.68.4 1.64-.23 2.2-1.1.98-2.52 1.5-4 1.3-4-.54-8.22-4.76-8.76-8.76-.2-1.48.32-2.9 1.3-4 .56-.63 1.52-.73 2.2-.23Z"
+                  stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div class="contact-text">
+              <h3 data-ar="خدمة العملاء" data-en="Customer Service">خدمة العملاء</h3>
+              <p><span dir="ltr">+966 00 000 0000</span></p>
+              <p><span dir="ltr">info@althuraya.com</span></p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 16l6-6 4 4 6-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M14 6h6v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div class="contact-text">
+              <h3 data-ar="علاقات المستثمرين" data-en="Investor Relations">علاقات المستثمرين</h3>
+              <p><span dir="ltr">investors@althuraya.com</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <!-- FORM -->
+      <form class="contact-card" onsubmit="sendMail(event)" autocomplete="on" action="mailto:info@althuraya.com"
+        method="POST" enctype="text/plain">
+        <div class="field">
+          <label for="fullName" data-ar="الاسم الكامل" data-en="Full Name">الاسم الكامل</label>
+          <input id="fullName" name="Full Name" type="text" placeholder="أدخل اسمك الكامل"
+            data-ar-placeholder="أدخل اسمك الكامل" data-en-placeholder="Enter your full name" required />
+        </div>
+
+        <div class="field">
+          <label for="email" data-ar="البريد الإلكتروني" data-en="Email Address">البريد الإلكتروني</label>
+          <input id="email" name="Email" type="email" placeholder="أدخل بريدك الإلكتروني"
+            data-ar-placeholder="أدخل بريدك الإلكتروني" data-en-placeholder="Enter your email address" required />
+        </div>
+
+        <div class="field">
+          <label for="message" data-ar="الرسالة" data-en="Message">الرسالة</label>
+          <textarea id="message" name="Message" rows="5" placeholder="كيف يمكننا مساعدتك؟"
+            data-ar-placeholder="كيف يمكننا مساعدتك؟" data-en-placeholder="How can we help you?" required></textarea>
+        </div>
+
+        <button class="contact-btn" type="submit">
+          <span class="btn-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M21 3L10 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              <path d="M21 3l-7 20-4-9-9-4 20-7Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+            </svg>
+          </span>
+          <span class="btn-text" data-ar="إرسال الرسالة" data-en="Send Message">إرسال الرسالة</span>
+        </button>
+      </form>
+    </div>
+  </section>
+  <!-- FOOTER -------------------------------------------------------------------------------------------------------------------------------------->
+  <footer class="site-footer" id="footer">
+    <div class="footer-inner">
+
+      <!-- Brand -->
+      <div class="footer-brand">
+        <img src="/assets/images/logo2.png" class="footer-logo-img" alt="Althuraya Logo" data-alt-ar="شعار الثريا"
+          data-alt-en="Althuraya Logo" />
+
+        <p class="footer-desc" data-ar="الثريا مصنع الشركات.. نصنع المستقبل، مشروعًا تلو الآخر"
+          data-en="Althuraya Ventures Builder.. Shaping the future, one venture at a time">
+          الثريا مصنع الشركات.. نصنع المستقبل، مشروعًا تلو الآخر
+        </p>
+      </div>
+
+      <!--About Us -->
+      <div class="footer-col">
+        <h4 class="footer-title" data-ar="روابط سريعة" data-en="Quick Links">روابط سريعة</h4>
+        <ul class="footer-links">
+          <li><a href="#home" class="footer-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a></li>
+          <li><a href="#methodology" class="footer-link" data-ar="منهجيتنا" data-en="Approach">منهجيتنا</a></li>
+          <li><a href="#impact" class="footer-link" data-ar="أثرنا" data-en="Our Impact">أثرنا</a></li>
+        </ul>
+      </div>
+
+      <!-- Projects -->
+      <div class="footer-col">
+        <h4 class="footer-title" data-ar="مشاريعنا" data-en="Our Projects">مشاريعنا</h4>
+        <ul class="footer-links">
+          <li><a href="https://beautycops.com/" class="footer-link" data-ar="بيوتي كوبز"
+              data-en="Beauty Cops Website">بيوتي كوبز</a></li>
+          <li><a href="https://althuraya.store/" class="footer-link" data-ar="متجر الثريا"
+              data-en="Althuraya Store Website">متجر الثريا</a></li>
+        </ul>
+      </div>
+
+      <!-- Connect -->
+      <div class="footer-col">
+        <h4 class="footer-title" data-ar="تواصل" data-en="Connect">Connect</h4>
+
+        <div class="footer-social">
+          <a class="social-btn" href="mailto:info@althuraya.com" aria-label="Email">
+            <img src="/assets/icons/icon-email.png" alt="Email" />
+          </a>
+          <a class="social-btn" href="#" aria-label="LinkedIn">
+            <img src="/assets/icons/icon-linkedin.png" alt="LinkedIn" />
+          </a>
+          <a class="social-btn" href="#" aria-label="Twitter/X">
+            <img src="/assets/icons/icon-x.png" alt="X" />
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom" data-ar="© 2026 الثريا مصنع الشركات. جميع الحقوق محفوظة"
+      data-en="© 2026 Althuraya Venture Studio. All rights reserved">
+      © 2026 Althuraya Venture Studio. All rights reserved
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -------------------------------------------------------------------------------------------------------------------------------------->
+  <script src="assets/js/script.js" defer></script>
+
+</body>
+
+</html>
