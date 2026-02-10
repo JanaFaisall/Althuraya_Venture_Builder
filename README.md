@@ -22,4 +22,5 @@ This project presents Althuraya’s ventures, impact, methodology, and partner e
 ## Deployment
 Hosted using GitHub Pages.
 
-##Demo
+## Demo
+https://althuraya.netlify.app/
