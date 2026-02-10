@@ -454,28 +454,29 @@ html[dir="ltr"] .secondary-btn {
 }
 
 /* =========================================================
-   PARTNERS MARQUEE
+   PARTNERS MARQUEE (Always LTR + seamless via JS-measured shift)
    ========================================================= */
-.partners-section {
-  text-align: center;
+
+.partners-section { text-align: center; }
+
+.partners-label{
+  color: rgba(255,255,255,.65);
+  font-size:18px;
+  letter-spacing:.2px;
 }
 
-.partners-label {
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 18px;
-  letter-spacing: 0.2px;
-}
-
-.partners-marquee {
+.partners-marquee{
   --fade: 70px;
+  --gap: 28px;         /* gap بين القروب1 والقروب2 */
+  --speed: 90s;        /* مدة الدورة */
+  --shift: 600px;      /* JS بيبدّلها تلقائيًا */
+
   position: relative;
   width: 100%;
   overflow: hidden;
   padding: 14px 0 18px;
-  display: grid;
-  place-items: center;
+  display: block;
 
-  /* Mask fade at edges (with fallback below) */
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0,
@@ -492,78 +493,80 @@ html[dir="ltr"] .secondary-btn {
   );
 }
 
-/* Fallback edge fades if mask is unsupported */
 .partners-marquee::before,
-.partners-marquee::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
+.partners-marquee::after{
+  content:"";
+  position:absolute;
+  top:0; bottom:0;
   width: var(--fade);
-  pointer-events: none;
-  z-index: 2;
+  pointer-events:none;
+  z-index:2;
 }
 
-.partners-marquee::before {
-  left: 0;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.475), rgba(0, 0, 0, 0));
+.partners-marquee::before{
+  left:0;
+  background: linear-gradient(to right, rgba(0,0,0,.475), rgba(0,0,0,0));
+}
+.partners-marquee::after{
+  right:0;
+  background: linear-gradient(to left, rgba(0,0,0,.475), rgba(0,0,0,0));
 }
 
-.partners-marquee::after {
-  right: 0;
-  background: linear-gradient(to left, rgba(0, 0, 0, 0.475), rgba(0, 0, 0, 0));
-}
+/* ✅ الشريط نفسه لا يتأثر بالـ RTL */
+.partners-track{
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
 
-/* Scrolling track; requires duplicated logos in HTML */
-.partners-track {
-  --gap: 72px;
-  --speed: 500s;
-  display: flex;
-  align-items: center;
-  gap: var(--gap);
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
   width: max-content;
+
   will-change: transform;
-  animation: partners-scroll var(--speed) linear infinite;
+  animation: partners-loop var(--speed) linear infinite;
 }
 
-@keyframes partners-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(calc(-50% - (var(--gap) / 2))); }
+/* قروبين */
+.partners-group{
+  display:flex;
+  align-items:center;
+  gap: 72px;        /* هذا gap داخل القروب نفسه بين الشعارات */
+  flex-shrink:0;
 }
 
-.partner-logo {
-  height: 44px;
-  width: auto;
-  display: block;
-  opacity: 0.85;
-  filter: grayscale(0.3) contrast(1.05) brightness(2.5);
-  transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+/* gap بين القروبين فقط */
+.partners-group + .partners-group{
+  margin-left: var(--gap);
 }
 
-.partners-marquee:hover .partner-logo {
-  opacity: 0.65;
+/* الحركة على مسافة محسوبة (بالبكسل) */
+@keyframes partners-loop{
+  from { transform: translate3d(0,0,0); }
+  to   { transform: translate3d(calc(-1 * var(--shift)),0,0); }
 }
 
-.partner-logo:hover {
-  opacity: 1 !important;
+.partner-logo{
+  height:44px;
+  width:auto;
+  display:block;
+  opacity:.85;
+  filter: grayscale(.3) contrast(1.05) brightness(2.5);
+  transition: opacity .2s ease, filter .2s ease, transform .2s ease;
+}
+
+.partners-marquee:hover .partner-logo{ opacity:.65; }
+.partner-logo:hover{
+  opacity:1 !important;
   filter: grayscale(0) contrast(1) brightness(1);
   transform: translateY(-1px);
 }
 
-/* Reduce motion accessibility */
-@media (prefers-reduced-motion: reduce) {
-  .partners-track {
-    animation: none;
-    justify-content: center;
-    flex-wrap: wrap;
-    width: 100%;
-  }
-
+@media (prefers-reduced-motion: reduce){
+  .partners-track{ animation:none; transform:none; }
   .partners-marquee::before,
-  .partners-marquee::after {
-    display: none;
-  }
+  .partners-marquee::after{ display:none; }
 }
+
 
 /* =========================================================
    PROJECTS (Simple Grid)
@@ -726,6 +729,13 @@ html[dir="ltr"] .fp2-wrap { direction: ltr; }
 html[dir="ltr"] .fp2-visual { order: 1; }
 html[dir="ltr"] .fp2-info { order: 2; }
 
+.fp2-info{
+  display: flex;
+  flex-direction: column;
+  gap: 18px; /* غيريها مثل ما تبين */
+}
+
+
 .fp2-title {
   margin: 0 0 12px;
   font-size: clamp(2.2rem, 4.4vw, 3.8rem);
@@ -738,19 +748,6 @@ html[dir="ltr"] .fp2-info { order: 2; }
   max-width: 60ch;
   color: var(--text-soft);
   line-height: 2;
-}
-
-.fp2-more {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  font-weight: 900;
-  color: rgba(184, 150, 247, 0.95);
-}
-
-.fp2-more:hover {
-  text-decoration: underline;
 }
 
 .fp2-visual {
@@ -1376,6 +1373,29 @@ html[dir="rtl"] .contact-wrap { direction: rtl; }
   box-shadow: 0 0 0 4px rgba(184, 150, 247, 0.1);
   background: rgba(255, 255, 255, 0.06);
 }
+
+html[dir="rtl"] .contact-card input,
+html[dir="rtl"] .contact-card textarea{
+  font-family: var(--font-ar-base);
+}
+
+html[dir="ltr"] .contact-card input,
+html[dir="ltr"] .contact-card textarea{
+  font-family: var(--font-en-title);
+  letter-spacing: 0.02em;
+}
+
+html[dir="rtl"] .contact-card input::placeholder,
+html[dir="rtl"] .contact-card textarea::placeholder{
+  font-family: var(--font-ar-base);
+}
+
+html[dir="ltr"] .contact-card input::placeholder,
+html[dir="ltr"] .contact-card textarea::placeholder{
+  font-family: var(--font-en-title);
+  letter-spacing: 0.02em;
+}
+
 
 .contact-btn {
   width: 100%;

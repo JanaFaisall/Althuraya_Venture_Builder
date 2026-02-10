@@ -414,7 +414,6 @@
 
   document.addEventListener("DOMContentLoaded", init);
 })();
-
 // Featured projects carousel ----------------------------------------------------------------------
 (() => {
   const stack = document.getElementById('fp2Stack');
@@ -424,6 +423,8 @@
   const titleEl = document.getElementById('fp2Title');
   const descEl  = document.getElementById('fp2Desc');
   const dotsWrap = document.getElementById('fp2Dots');
+
+  const moreEl = document.getElementById('fp2ViewProjectBtn'); //  views the project button
 
   const isArabic = () => (document.documentElement.getAttribute('dir') || 'rtl') === 'rtl';
 
@@ -441,6 +442,16 @@
     const ar = isArabic();
     titleEl.textContent = ar ? card.dataset.arTitle : card.dataset.enTitle;
     descEl.textContent  = ar ? card.dataset.arDesc  : card.dataset.enDesc;
+
+    // ✅ تحديث رابط الزر حسب المشروع
+    if (moreEl) {
+      const link = card.dataset.link || '#contact';
+      moreEl.href = link;
+
+      const external = /^https?:\/\//i.test(link);
+      moreEl.target = external ? '_blank' : '_self';
+      moreEl.rel = external ? 'noopener' : '';
+    }
   }
 
   function applyPositions(i){
@@ -560,6 +571,7 @@ function sendMail(e) {
 
   window.location.href = `mailto:info@althuraya.com?subject=${subject}&body=${body}`;
 }
+
 
 
 
