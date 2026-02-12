@@ -20,7 +20,7 @@ This project presents Althuraya’s ventures, impact, methodology, and partner e
 - JavaScript
 
 ## Deployment
-Hosted using GitHub Pages.
+Hosted using Netlify
 
 ## Demo
 https://althuraya.netlify.app/
