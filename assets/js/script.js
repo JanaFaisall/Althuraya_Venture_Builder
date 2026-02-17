@@ -507,14 +507,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const prefix = counter.textContent.trim().startsWith("$") ? "$" : "";
       let current = 0;
 
-      const duration = 1400; // سرعة الحركة (ms)
+      const duration = 500; // سرعة الحركة (ms)
       const stepTime = Math.max(Math.floor(duration / target), 20);
 
       const timer = setInterval(() => {
         current++;
         counter.textContent = `${prefix}${current}${suffix}`;
         if (current >= target) {
-          counter.textContent = `${prefix}${target}${suffix}+`;
+          counter.textContent = `${prefix}${target}${suffix}`;
           clearInterval(timer);
         }
       }, stepTime);
