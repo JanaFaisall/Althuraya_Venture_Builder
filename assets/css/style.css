@@ -1544,6 +1544,19 @@ html[dir="rtl"] .footer-link:hover {
   font-size: 0.92rem;
 }
 
+.cr-number {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cr-number img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+
 /* =========================================================
    RESPONSIVE (Unified)
    ========================================================= */
