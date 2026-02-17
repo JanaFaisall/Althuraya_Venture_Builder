@@ -1,32 +1,49 @@
 /* =========================================================
-   VARIABLES (Unified Design Tokens)
+   VARIABLES / DESIGN TOKENS
+   ---------------------------------------------------------
+   What this section is:
+   - A centralized "theme" layer using CSS Custom Properties.
+   - Any value starting with -- is a reusable variable:
+     Example: var(--accent) reads the value of --accent.
+   Why:
+   - Keeps design consistent and easy to tweak later.
+   Symbols explained:
+   - :root  => the document root element (<html>), best place for global variables.
+   - --name => CSS custom property (variable).
+   - var()  => reads a custom property.
    ========================================================= */
 :root {
-  /* Fonts */
+  /* Fonts (language-aware typography tokens) */
   --font-ar-base: "Cairo", sans-serif;
   --font-ar-title: "Amiri", serif;
   --font-en-base: "Bellefair", sans-serif;
   --font-en-title: "Oxanium", serif;
 
-  /* Layout */
+  /* Layout sizing tokens */
   --nav-h: 72px;
+  /* Fixed navbar height (also used for anchor offset + section spacing) */
   --wrap: 1200px;
+  /* Max content width used in many wrappers */
 
-  /* Global section spacing */
+  /* Global section spacing tokens */
   --section-x: 2rem;
+  /* Horizontal padding inside sections */
   --section-gap-under-nav: 3rem;
+  /* Extra breathing space below navbar */
   --section-pad-top: calc(var(--nav-h) + var(--section-gap-under-nav));
+  /* calc() allows math with CSS values/vars */
   --section-pad-bottom: 5rem;
 
   /* Brand */
   --accent: #b896f7;
+  /* Main highlight color */
 
-  /* Surfaces */
+  /* Surfaces (glassmorphism background/border presets) */
   --glass-bg: rgba(15, 16, 18, 0.55);
   --glass-bg-2: rgba(15, 16, 18, 0.64);
   --glass-border: rgba(255, 255, 255, 0.08);
 
-  /* Text */
+  /* Text opacity levels (keeps typography consistent) */
   --text-dim: rgba(255, 255, 255, 0.62);
   --text-dimmer: rgba(255, 255, 255, 0.55);
   --text-soft: rgba(255, 255, 255, 0.68);
@@ -34,16 +51,30 @@
 
 /* =========================================================
    RESET + GLOBAL BASE
+   ---------------------------------------------------------
+   What this section is:
+   - A lightweight reset to remove browser default spacing.
+   - Base HTML/body behavior shared across the whole site.
+   Symbols explained:
+   - *      => universal selector (applies to all elements).
+   - html   => the <html> element.
+   - body   => the <body> element.
    ========================================================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* Includes padding/border inside width/height calculations */
 }
 
 html {
   scroll-behavior: smooth;
-  /* Consistent anchor offset for all section IDs */
+  /* Smooth scrolling for anchor links */
+
+  /* Consistent anchor offset for all section IDs:
+     - When clicking navbar links (#contact etc.), this prevents content
+       from hiding behind the fixed navbar.
+     - scroll-padding-top affects where the browser "stops" after scrolling to an anchor. */
   scroll-padding-top: calc(var(--nav-h) + 12px);
 }
 
@@ -52,11 +83,21 @@ body {
   line-height: 1.6;
   color: #fff;
   overflow-x: hidden;
+  /* Prevents accidental horizontal scrolling */
   background: #0b0c10 url("/assets/images/background.png") center / cover no-repeat fixed;
+  /* background shorthand breakdown:
+     - #0b0c10                       => fallback color
+     - url(...)                      => image layer
+     - center / cover                => position / size
+     - no-repeat                     => do not tile
+     - fixed                         => stays fixed while scrolling */
   transition: font-family 0.3s ease;
+  /* Smooth font swap when switching language */
 }
 
-/* Direction + base font by document direction */
+/* Direction + base font by document direction
+   - html[dir="rtl"] selects <html dir="rtl"> (Arabic)
+   - html[dir="ltr"] selects <html dir="ltr"> (English) */
 html[dir="rtl"] body {
   direction: rtl;
   font-family: var(--font-ar-base);
@@ -67,6 +108,8 @@ html[dir="ltr"] body {
   font-family: var(--font-en-base);
 }
 
+/* Media elements default safety:
+   - max-width prevents overflow on smaller screens. */
 img,
 svg {
   max-width: 100%;
@@ -74,14 +117,26 @@ svg {
   display: block;
 }
 
-/* Disable any legacy overlays from older versions */
+/* Disable any legacy overlays from older versions
+   Symbols explained:
+   - ::before / ::after are pseudo-elements (virtual elements).
+   - content: none removes them (with !important to force override). */
 body::before,
 body::after {
   content: none !important;
 }
 
 /* =========================================================
-   BACKGROUND LAYER (stars canvas)
+   BACKGROUND LAYER (Stars Canvas)
+   ---------------------------------------------------------
+   What this section is:
+   - A fixed, full-screen layer behind the site content.
+   - Used for animated stars via <canvas id="stars-canvas">.
+   Symbols explained:
+   - position: fixed  => stays in place while scrolling.
+   - inset: 0         => shorthand for top/right/bottom/left: 0.
+   - z-index: -1      => behind normal content.
+   - pointer-events:none => allows clicks through the layer.
    ========================================================= */
 .bg-wrap {
   position: fixed;
@@ -100,7 +155,15 @@ body::after {
 }
 
 /* =========================================================
-   DECOR: GLASS RECTANGLES (floating)
+   DECOR: GLASS RECTANGLES (Floating)
+   ---------------------------------------------------------
+   What this section is:
+   - Decorative glass shapes that float slightly up/down.
+   Symbols explained:
+   - transform: translate3d(...) uses GPU-friendly transforms.
+   - will-change hints the browser to optimize upcoming changes.
+   - animation: floaty ... uses @keyframes below.
+   - --px/--py/--r are custom properties used per rectangle.
    ========================================================= */
 .glass-rect {
   position: absolute;
@@ -110,19 +173,50 @@ body::after {
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
   opacity: 0.55;
 
+  /* Default fallbacks for missing vars:
+     var(--px, 0px) means: use --px if exists, else 0px */
   transform: translate3d(var(--px, 0px), var(--py, 0px), 0) rotate(var(--r, 0deg));
   will-change: transform;
   animation: floaty 10s ease-in-out infinite;
 }
 
-.gr1 { --r: -9deg; left: 3.5%; top: 6%; width: 170px; height: 120px; }
-.gr2 { --r: 7deg; right: 3.5%; top: 8%; width: 200px; height: 135px; animation-delay: -2s; }
-.gr3 { --r: 11deg; left: 5%; bottom: 10%; width: 190px; height: 140px; animation-delay: -4s; }
+/* Individual rectangle presets (position + size + rotation + delay) */
+.gr1 {
+  --r: -9deg;
+  left: 3.5%;
+  top: 6%;
+  width: 170px;
+  height: 120px;
+}
 
+.gr2 {
+  --r: 7deg;
+  right: 3.5%;
+  top: 8%;
+  width: 200px;
+  height: 135px;
+  animation-delay: -2s;
+}
+
+.gr3 {
+  --r: 11deg;
+  left: 5%;
+  bottom: 10%;
+  width: 190px;
+  height: 140px;
+  animation-delay: -4s;
+}
+
+/* Animation timeline:
+   - 0% and 100% => original position
+   - 50% => move up by 12px (negative Y) */
 @keyframes floaty {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translate3d(var(--px, 0px), var(--py, 0px), 0) rotate(var(--r, 0deg));
   }
+
   50% {
     transform: translate3d(var(--px, 0px), calc(var(--py, 0px) - 12px), 0) rotate(var(--r, 0deg));
   }
@@ -130,6 +224,12 @@ body::after {
 
 /* =========================================================
    TYPOGRAPHY (Global Defaults)
+   ---------------------------------------------------------
+   What this section is:
+   - Default sizes and line heights for headings and paragraphs.
+   Symbols explained:
+   - clamp(min, preferred, max) => responsive size that never goes below min
+     and never above max, while scaling between them.
    ========================================================= */
 h1 {
   font-size: clamp(2.2rem, 5vw, 4.2rem);
@@ -139,7 +239,8 @@ h1 {
 }
 
 p {
-  /* Clamp fixed: min <= max (previously could be inconsistent) */
+  /* Clamp sanity note:
+     clamp(1rem, 2vw, 1.15rem) ensures min <= max */
   font-size: clamp(1rem, 2vw, 1.15rem);
   line-height: 2;
   color: var(--text-soft);
@@ -158,6 +259,7 @@ html[dir="ltr"] .hero-title {
   font-family: var(--font-en-title);
   font-weight: 700;
   text-transform: uppercase;
+  /* visual style for English headings */
 }
 
 /* Paragraphs font by language */
@@ -174,15 +276,21 @@ html[dir="ltr"] .section p {
 
 /* =========================================================
    SECTION SPACING (Unified)
+   ---------------------------------------------------------
+   What this section is:
+   - One rule that applies consistent top/bottom padding to all major sections.
+   Symbols explained:
+   - :is(A, B, C) => groups selectors without repeating the same declarations.
+   - padding-inline => logical left/right padding (works with RTL/LTR).
    ========================================================= */
-/* Apply consistent spacing to all major sections */
 :is(.section, .projects, .fp2, #methodology, .impact-section, .faq-section, .contact-section) {
   padding-inline: var(--section-x);
   padding-top: var(--section-pad-top);
   padding-bottom: var(--section-pad-bottom);
 }
 
-/* Default section layout: consistent top alignment */
+/* Base section layout:
+   - Centers the section content and keeps it aligned from the top */
 .section {
   min-height: auto;
   display: flex;
@@ -192,7 +300,8 @@ html[dir="ltr"] .section p {
   text-align: center;
 }
 
-/* Hero remains the only full-viewport section */
+/* Hero section:
+   - Only section that stays full viewport height */
 #home {
   min-height: 100vh;
   justify-content: center;
@@ -203,6 +312,11 @@ html[dir="ltr"] .section p {
 
 /* =========================================================
    NAVBAR
+   ---------------------------------------------------------
+   What this section is:
+   - Fixed glass navbar with centered desktop menu + actions area.
+   Symbols explained:
+   - @supports checks browser feature support (e.g., backdrop-filter).
    ========================================================= */
 .navbar {
   position: fixed;
@@ -217,12 +331,14 @@ html[dir="ltr"] .section p {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Fallback if blur is not supported */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .navbar {
     background-color: rgba(21, 21, 24, 0.92);
   }
 }
 
+/* Navbar content container */
 .nav-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -232,9 +348,11 @@ html[dir="ltr"] .section p {
   justify-content: space-between;
   padding: 0 2rem;
   position: relative;
+  /* needed because nav-menu is absolutely centered */
   min-width: 0;
 }
 
+/* Logo wrapper */
 .nav-logo,
 .nav-logo a {
   display: flex;
@@ -250,6 +368,7 @@ html[dir="ltr"] .section p {
   object-fit: contain;
 }
 
+/* Right-side actions (language toggle, hamburger on mobile, etc.) */
 .nav-actions {
   display: flex;
   gap: 1rem;
@@ -257,7 +376,7 @@ html[dir="ltr"] .section p {
   min-width: 0;
 }
 
-/* Language toggle button */
+/* Language toggle */
 .lang-toggle {
   background-color: rgba(255, 255, 255, 0.03);
   border: 1.5px solid rgba(184, 150, 247, 0.65);
@@ -268,10 +387,12 @@ html[dir="ltr"] .section p {
   font-weight: 600;
   cursor: pointer;
   font-family: "Inter", sans-serif;
+  /* fixed UI font for toggle */
   display: flex;
   align-items: center;
   gap: 0.5rem;
   white-space: nowrap;
+  /* prevents EN | AR from wrapping */
   transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
@@ -297,7 +418,8 @@ html[dir="ltr"] .section p {
   color: #cfcfe1;
 }
 
-/* Hamburger icon (mobile) */
+/* Hamburger icon (mobile only)
+   - hidden by default, enabled in the mobile nav media query */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -314,6 +436,7 @@ html[dir="ltr"] .section p {
   transition: all 0.3s ease;
 }
 
+/* Hamburger -> X animation when active */
 .hamburger.active span:nth-child(1) {
   transform: rotate(45deg) translate(8px, 8px);
 }
@@ -326,7 +449,8 @@ html[dir="ltr"] .section p {
   transform: rotate(-45deg) translate(7px, -7px);
 }
 
-/* Desktop nav menu */
+/* Desktop nav menu:
+   - absolutely centered within nav-container */
 .nav-menu {
   display: flex;
   list-style: none;
@@ -350,15 +474,19 @@ html[dir="ltr"] .section p {
   transition: color 0.3s ease;
   padding: 0.5rem 0;
   position: relative;
+  /* needed for ::after underline positioning */
   white-space: nowrap;
 }
 
-/* Underline animation; respects RTL/LTR edge */
+/* Underline animation that respects RTL/LTR:
+   - In RTL, underline grows from the right edge.
+   - In LTR, underline grows from the left edge. */
 .nav-link::after {
   content: "";
   position: absolute;
   bottom: 0;
   right: 0;
+  /* default RTL behavior */
   width: 0;
   height: 2px;
   background-color: var(--accent);
@@ -385,6 +513,12 @@ html[dir="ltr"] .nav-link::after {
 
 /* =========================================================
    HERO
+   ---------------------------------------------------------
+   What this section is:
+   - Hero button styling + gradient brand text utility.
+   Symbols explained:
+   - -webkit-background-clip / -webkit-text-fill-color are needed
+     for gradient text on WebKit browsers.
    ========================================================= */
 .brand-gradient {
   background: linear-gradient(90deg, #fff 0%, var(--accent) 100%);
@@ -402,7 +536,7 @@ html[dir="ltr"] .nav-link::after {
   justify-content: center;
 }
 
-/* Primary/secondary buttons */
+/* Shared base styles for both buttons */
 .main-btn,
 .secondary-btn {
   border-radius: 14px;
@@ -413,6 +547,7 @@ html[dir="ltr"] .nav-link::after {
     background 0.25s ease, border-color 0.25s ease;
 }
 
+/* Primary CTA button */
 .main-btn {
   background: linear-gradient(90deg, var(--accent) 0%, #ffffff 100%);
   color: #1a1a1a;
@@ -425,6 +560,7 @@ html[dir="ltr"] .nav-link::after {
   filter: brightness(1.02);
 }
 
+/* Secondary button (glass) */
 .secondary-btn {
   background: rgba(255, 255, 255, 0.06);
   color: #fff;
@@ -440,6 +576,7 @@ html[dir="ltr"] .nav-link::after {
   filter: brightness(1.02);
 }
 
+/* Language-specific button typography */
 html[dir="rtl"] .main-btn,
 html[dir="rtl"] .secondary-btn {
   font-family: var(--font-ar-title);
@@ -455,21 +592,37 @@ html[dir="ltr"] .secondary-btn {
 
 /* =========================================================
    PARTNERS MARQUEE (Always LTR + seamless via JS-measured shift)
+   ---------------------------------------------------------
+   What this section is:
+   - A looping logo marquee.
+   - It stays LTR even if the page is RTL.
+   Symbols explained:
+   - --fade  => edge fade width used in mask gradients.
+   - --gap   => spacing between group1 and group2.
+   - --speed => animation duration for a full loop.
+   - --shift => distance moved per loop; JS updates it dynamically.
+   - mask-image => fades edges without extra elements.
+   - unicode-bidi: isolate => isolates bidi rendering, preventing RTL interference.
    ========================================================= */
 
-.partners-section { text-align: center; }
-
-.partners-label{
-  color: rgba(255,255,255,.65);
-  font-size:18px;
-  letter-spacing:.2px;
+.partners-section {
+  text-align: center;
 }
 
-.partners-marquee{
+.partners-label {
+  color: rgba(255, 255, 255, .65);
+  font-size: 18px;
+  letter-spacing: .2px;
+}
+
+.partners-marquee {
   --fade: 70px;
-  --gap: 28px;         /* gap بين القروب1 والقروب2 */
-  --speed: 90s;        /* مدة الدورة */
-  --shift: 600px;      /* JS بيبدّلها تلقائيًا */
+  --gap: 28px;
+  /* Space between group #1 and group #2 */
+  --speed: 90s;
+  /* Loop duration (lower = faster, higher = slower) */
+  --shift: 600px;
+  /* Loop distance in px (JS will overwrite this for perfect seamless loop) */
 
   position: relative;
   width: 100%;
@@ -477,426 +630,128 @@ html[dir="ltr"] .secondary-btn {
   padding: 14px 0 18px;
   display: block;
 
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    #000 var(--fade),
-    #000 calc(100% - var(--fade)),
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    #000 var(--fade),
-    #000 calc(100% - var(--fade)),
-    transparent 100%
-  );
+  /* Edge fade using a mask:
+     - The center is fully visible (#000).
+     - Edges become transparent, creating a smooth fade out. */
+  -webkit-mask-image: linear-gradient(to right,
+      transparent 0,
+      #000 var(--fade),
+      #000 calc(100% - var(--fade)),
+      transparent 100%);
+  mask-image: linear-gradient(to right,
+      transparent 0,
+      #000 var(--fade),
+      #000 calc(100% - var(--fade)),
+      transparent 100%);
 }
 
 .partners-marquee::before,
-.partners-marquee::after{
-  content:"";
-  position:absolute;
-  top:0; bottom:0;
+.partners-marquee::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
   width: var(--fade);
-  pointer-events:none;
-  z-index:2;
+  pointer-events: none;
+  z-index: 2;
 }
 
-.partners-marquee::before{
-  left:0;
-  background: linear-gradient(to right, rgba(0,0,0,.475), rgba(0,0,0,0));
-}
-.partners-marquee::after{
-  right:0;
-  background: linear-gradient(to left, rgba(0,0,0,.475), rgba(0,0,0,0));
+/* Extra subtle darkening on edges (visual depth) */
+.partners-marquee::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, .475), rgba(0, 0, 0, 0));
 }
 
-/* ✅ الشريط نفسه لا يتأثر بالـ RTL */
-.partners-track{
+.partners-marquee::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, .475), rgba(0, 0, 0, 0));
+}
+
+/* The moving track must not be affected by RTL */
+.partners-track {
   direction: ltr !important;
   unicode-bidi: isolate !important;
 
-  display:flex;
-  align-items:center;
-  justify-content:flex-start;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   width: max-content;
 
   will-change: transform;
   animation: partners-loop var(--speed) linear infinite;
 }
 
-/* قروبين */
-.partners-group{
-  display:flex;
-  align-items:center;
-  gap: 72px;        /* هذا gap داخل القروب نفسه بين الشعارات */
-  flex-shrink:0;
+/* Two groups (duplicated content) to allow seamless looping */
+.partners-group {
+  display: flex;
+  align-items: center;
+  gap: 72px;
+  /* Inner gap between logos within the same group */
+  flex-shrink: 0;
 }
 
-/* gap بين القروبين فقط */
-.partners-group + .partners-group{
+/* Gap only between group #1 and group #2 */
+.partners-group+.partners-group {
   margin-left: var(--gap);
 }
 
-/* الحركة على مسافة محسوبة (بالبكسل) */
-@keyframes partners-loop{
-  from { transform: translate3d(0,0,0); }
-  to   { transform: translate3d(calc(-1 * var(--shift)),0,0); }
+/* Animation travels a measured distance in pixels */
+@keyframes partners-loop {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(calc(-1 * var(--shift)), 0, 0);
+  }
 }
 
-.partner-logo{
-  height:44px;
-  width:auto;
-  display:block;
-  opacity:.85;
+.partner-logo {
+  height: 44px;
+  width: auto;
+  display: block;
+  opacity: .85;
   filter: grayscale(.3) contrast(1.05) brightness(2.5);
   transition: opacity .2s ease, filter .2s ease, transform .2s ease;
 }
 
-.partners-marquee:hover .partner-logo{ opacity:.65; }
-.partner-logo:hover{
-  opacity:1 !important;
+.partners-marquee:hover .partner-logo {
+  opacity: .65;
+}
+
+.partner-logo:hover {
+  opacity: 1 !important;
   filter: grayscale(0) contrast(1) brightness(1);
   transform: translateY(-1px);
 }
 
-@media (prefers-reduced-motion: reduce){
-  .partners-track{ animation:none; transform:none; }
+/* Accessibility:
+   - If the user prefers reduced motion, disable the marquee animation. */
+@media (prefers-reduced-motion: reduce) {
+  .partners-track {
+    animation: none;
+    transform: none;
+  }
+
   .partners-marquee::before,
-  .partners-marquee::after{ display:none; }
+  .partners-marquee::after {
+    display: none;
+  }
 }
-
-
-/* =========================================================
-   PROJECTS (Simple Grid)
-   ========================================================= 
-.projects-wrap {
-  width: min(var(--wrap), 92vw);
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: clamp(22px, 4vw, 60px);
-  align-items: center;
-  text-align: start;
-}
-
-html[dir="rtl"] .projects-wrap { direction: rtl; }
-html[dir="ltr"] .projects-wrap { direction: ltr; }
-
-.projects-title {
-  margin: 0 0 10px;
-  font-size: clamp(2.6rem, 4.6vw, 4.1rem);
-  line-height: 1.1;
-}
-
-.projects-subtitle {
-  margin: 0 0 22px;
-  color: var(--text-dim);
-  max-width: 55ch;
-}
-
-.projects-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 46px;
-  padding: 0 18px;
-  border-radius: 999px;
-  text-decoration: none;
-  font-weight: 800;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-}
-
-.projects-cta:hover {
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.35);
-}
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.p-card {
-  position: relative;
-  display: block;
-  text-decoration: none;
-  padding: 18px 18px 16px;
-  border-radius: 22px;
-  background: rgba(15, 16, 18, 0.58);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.38);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  transition: transform 0.25s ease, border-color 0.25s ease;
-}
-
-.p-card::after {
-  content: "";
-  position: absolute;
-  inset: -18px;
-  border-radius: 30px;
-  background: radial-gradient(
-    circle at 40% 45%,
-    color-mix(in srgb, var(--accent), transparent 65%),
-    transparent 60%
-  );
-  opacity: 0;
-  z-index: -1;
-  transition: opacity 0.25s ease;
-}
-
-.p-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.16);
-}
-
-.p-card:hover::after {
-  opacity: 0.9;
-}
-
-.p-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.p-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.88);
-  font-weight: 800;
-  font-size: 12.5px;
-}
-
-.p-badge.is-secret {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.p-name {
-  margin: 0 0 8px;
-  color: #fff;
-  font-size: 1.1rem;
-  font-weight: 900;
-}
-
-.p-desc {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 0.95rem;
-  line-height: 1.7;
-}
-
-.project--disabled {
-  opacity: 0.35;
-  filter: grayscale(1) blur(1.2px);
-  pointer-events: none;
-} */
-
-/* =========================================================
-   PROJECTS STACK (fp2)
-   ========================================================= 
-.fp2-wrap {
-  width: min(var(--wrap), 92vw);
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 0.95fr 1.05fr;
-  gap: clamp(22px, 4vw, 64px);
-  align-items: center;
-  text-align: start;
-}
-
-/* Keep consistent layout across RTL/LTR 
-html[dir="rtl"] .fp2-wrap { direction: rtl; }
-html[dir="rtl"] .fp2-visual { order: 1; }
-html[dir="rtl"] .fp2-info { order: 2; }
-
-html[dir="ltr"] .fp2-wrap { direction: ltr; }
-html[dir="ltr"] .fp2-visual { order: 1; }
-html[dir="ltr"] .fp2-info { order: 2; }
-
-.fp2-info{
-  display: flex;
-  flex-direction: column;
-  gap: 18px; /* غيريها مثل ما تبين 
-}
-
-
-.fp2-title {
-  margin: 0 0 12px;
-  font-size: clamp(2.2rem, 4.4vw, 3.8rem);
-  line-height: 1.1;
-  color: #fff;
-}
-
-.fp2-desc {
-  margin: 0 0 18px;
-  max-width: 60ch;
-  color: var(--text-soft);
-  line-height: 2;
-}
-
-.fp2-visual {
-  display: grid;
-  justify-items: center;
-}
-
-.fp2-stack {
-  position: relative;
-  width: min(520px, 92%);
-  height: 440px;
-}
-
-.fp2-card {
-  position: absolute;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 28px;
-  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.45);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: transform 0.45s ease, opacity 0.35s ease, filter 0.35s ease, border-color 0.35s ease;
-  will-change: transform;
-}
-
-.fp2-card img {
-  width: 70%;
-  height: 100%;
-  object-fit: contain;
-  opacity: 0.98;
-  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.35));
-}
-
-.fp2-card::after {
-  content: "";
-  position: absolute;
-  inset: -18px;
-  border-radius: 36px;
-  background: radial-gradient(
-    circle at 50% 55%,
-    color-mix(in srgb, var(--accent), transparent 60%),
-    transparent 65%
-  );
-  opacity: 0;
-  z-index: -1;
-  transition: opacity 0.45s ease;
-}
-
-/* Active and peripheral positions 
-.fp2-card.is-active {
-  width: 300px;
-  height: 300px;
-  left: 50%;
-  top: 45%;
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-  filter: none;
-  border-color: rgba(255, 255, 255, 0.18);
-}
-
-.fp2-card.is-active::after {
-  opacity: 0.95;
-}
-
-.fp2-card.is-p1 {
-  width: 120px;
-  height: 120px;
-  left: 12%;
-  top: 58%;
-  opacity: 0.22;
-  transform: translate(0, 0) scale(0.98);
-  filter: blur(0.2px);
-}
-
-.fp2-card.is-p2 {
-  width: 110px;
-  height: 110px;
-  left: 22%;
-  top: 26%;
-  opacity: 0.18;
-  transform: translate(0, 0) scale(0.95);
-}
-
-.fp2-card.is-p3 {
-  width: 110px;
-  height: 110px;
-  left: 70%;
-  top: 48%;
-  opacity: 0.18;
-  transform: translate(0, 0) scale(0.93);
-}
-
-.fp2-controls {
-  margin-top: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-}
-
-.fp2-nav {
-  width: 42px;
-  height: 42px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.fp2-nav:hover {
-  transform: scale(1.06);
-  background: rgba(255, 255, 255, 0.10);
-}
-
-.fp2-dots {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.fp2-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.25);
-  transition: width 0.25s ease, background 0.25s ease;
-}
-
-.fp2-dot.is-active {
-  width: 22px;
-  background: rgba(184, 150, 247, 0.9);
-} */
 
 /* =========================================================
    PROJECTS (Simple Rows – no controls)
+   ---------------------------------------------------------
+   What this section is:
+   - A clean “rows” layout: each project is a two-column grid (text + media),
+     and rows can alternate using .is-reverse.
    ========================================================= */
-.projects{
+.projects {
   position: relative;
   padding: 70px 0;
 }
 
-.projects-row{
+.projects-row {
   width: min(var(--wrap), 92vw);
   margin: 0 auto;
   display: grid;
@@ -906,41 +761,53 @@ html[dir="ltr"] .fp2-info { order: 2; }
   padding: clamp(18px, 2.2vw, 26px) 0;
 }
 
-.project-info{
+.project-info {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* alternating layout */
-.projects-row.is-reverse .project-media{ order: 2; }
-.projects-row.is-reverse .project-info { order: 1; }
-
-/* keep RTL/LTR sane */
-html[dir="rtl"] .projects-row{ direction: rtl; }
-html[dir="ltr"] .projects-row{ direction: ltr; }
-
-/* divider between projects */
-.projects-row + .projects-row{
-  border-top: 1px solid rgba(255,255,255,0.08);
-  margin-top: clamp(10px, 2vw, 18px);
+/* Alternating layout (swap sides) */
+.projects-row.is-reverse .project-media {
+  order: 2;
 }
 
-/* media */
-.projects-row .media{
+.projects-row.is-reverse .project-info {
+  order: 1;
+}
+
+/* Keep RTL/LTR layout consistent */
+html[dir="rtl"] .projects-row {
+  direction: rtl;
+}
+
+html[dir="ltr"] .projects-row {
+  direction: ltr;
+}
+
+/* Divider line between project rows */
+.projects-row+.projects-row {
+  /* border-top: 1px solid rgba(255,255,255,0.08); */
+  margin-top: clamp(100px, 2vw, 18px);
+}
+
+/* Media wrapper:
+   NOTE: margin: 100px 0 is intentionally large; it creates big vertical space. */
+.projects-row .media {
   display: grid;
   place-items: center;
   margin: 100px 0;
 }
 
-.project-card{
+.project-card {
   position: relative;
   width: min(520px, 92%);
   aspect-ratio: 1 / 1;
+  /* Keeps the card square */
   border-radius: 32px;
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  box-shadow: 0 18px 55px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.45);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   display: grid;
@@ -948,64 +815,67 @@ html[dir="ltr"] .projects-row{ direction: ltr; }
   overflow: hidden;
 }
 
-.project-card::after{
-  content:"";
-  position:absolute;
-  inset:-18px;
+.project-card::after {
+  content: "";
+  position: absolute;
+  inset: -18px;
   border-radius: 42px;
-  background: radial-gradient(
-    circle at 50% 55%,
-    color-mix(in srgb, var(--accent), transparent 60%),
-    transparent 65%
-  );
+  background: radial-gradient(circle at 50% 55%,
+      color-mix(in srgb, var(--accent), transparent 60%),
+      transparent 65%);
   opacity: 0.95;
   z-index: -1;
 }
 
-.project-card img{
+.project-card img {
   width: 70%;
   height: 70%;
   object-fit: contain;
-  filter: drop-shadow(0 18px 28px rgba(0,0,0,0.35));
+  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.35));
   opacity: 0.98;
 }
 
-/* text */
-.project-title{
+/* Project text */
+.project-title {
   margin: 0 0 12px;
   font-size: clamp(2rem, 3.8vw, 3.2rem);
   line-height: 1.15;
   color: #fff;
 }
 
-.project-desc{
+.project-desc {
   margin: 0 0 18px;
   max-width: 60ch;
   color: var(--text-soft);
   line-height: 2;
 }
 
-.project-btn{
+.project-btn {
   width: 100%;
   text-decoration: none;
 }
 
-/* responsive */
-@media (max-width: 900px){
-  .projects-row{
+/* Responsive: stack columns into one */
+@media (max-width: 900px) {
+  .projects-row {
     grid-template-columns: 1fr;
   }
+
   .projects-row.is-reverse .project-media,
-  .projects-row.is-reverse .project-info{
+  .projects-row.is-reverse .project-info {
     order: initial;
   }
-  .project-card{
+
+  .project-card {
     width: min(520px, 100%);
   }
 }
 
 /* =========================================================
    HOW WE WORK
+   ---------------------------------------------------------
+   What this section is:
+   - A 4-card grid that becomes 2 columns then 1 column on smaller screens.
    ========================================================= */
 .how-wrap {
   width: min(var(--wrap), 100%);
@@ -1117,8 +987,15 @@ html[dir="ltr"] .how-card-text {
 }
 
 /* =========================================================
-   IMPACT SECTION (fixed-size cards)
+   IMPACT SECTION (Fixed-size cards)
+   ---------------------------------------------------------
+   What this section is:
+   - Impact stats in equal-height cards.
+   - Text is clamped to keep card height stable.
+   Symbols explained:
+   - -webkit-line-clamp is a WebKit-based multiline clamp method.
    ========================================================= */
+
 .impact-section {
   text-align: center;
 }
@@ -1147,7 +1024,8 @@ html[dir="ltr"] .how-card-text {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(18px, 2.5vw, 28px);
-  align-items: stretch; /* ensures equal row height behavior */
+  align-items: stretch;
+  /* ensures equal row height behavior */
   justify-items: center;
 }
 
@@ -1210,17 +1088,31 @@ html[dir="ltr"] .how-card-text {
 }
 
 /* Fonts by language */
-html[dir="rtl"] .impact-title { font-family: var(--font-ar-title); }
-html[dir="ltr"] .impact-title { font-family: var(--font-en-title); text-transform: uppercase; letter-spacing: 0.02em; }
-html[dir="rtl"] .impact-text { font-family: var(--font-ar-base); }
-html[dir="ltr"] .impact-text { font-family: var(--font-en-base); letter-spacing: 0.02em; }
+html[dir="rtl"] .impact-title {
+  font-family: var(--font-ar-title);
+}
+
+html[dir="ltr"] .impact-title {
+  font-family: var(--font-en-title);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+html[dir="rtl"] .impact-text {
+  font-family: var(--font-ar-base);
+}
+
+html[dir="ltr"] .impact-text {
+  font-family: var(--font-en-base);
+  letter-spacing: 0.02em;
+}
 
 /* =========================================================
    FAQ (clean and RTL-safe)
    ========================================================= */
 .faq-section {
   text-align: center;
-  
+
 }
 
 .faq-head {
@@ -1243,7 +1135,7 @@ html[dir="ltr"] .impact-text { font-family: var(--font-en-base); letter-spacing:
   font-size: 16px;
   width: 100%;
   margin-inline: auto;
-  
+
 }
 
 .faq-list {
@@ -1269,8 +1161,7 @@ html[dir="ltr"] .impact-text { font-family: var(--font-en-base); letter-spacing:
 .faq-q {
   list-style: none;
   cursor: pointer;
-  user-select: none;
-
+  
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1318,7 +1209,7 @@ html[dir="ltr"] .impact-text { font-family: var(--font-en-base); letter-spacing:
   transition: grid-template-rows 0.35s ease, padding 0.25s ease, opacity 0.25s ease;
 }
 
-.faq-a > * {
+.faq-a>* {
   overflow: hidden;
 }
 
@@ -1344,13 +1235,18 @@ html[dir="rtl"] .faq-q {
   flex-direction: row-reverse;
 }
 
-html[dir="rtl"] .faq-q > span:first-child {
+html[dir="rtl"] .faq-q>span:first-child {
   text-align: right;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .faq-icon { transition: none; }
-  .faq-a { transition: none; }
+  .faq-icon {
+    transition: none;
+  }
+
+  .faq-a {
+    transition: none;
+  }
 }
 
 /* =========================================================
@@ -1369,8 +1265,13 @@ html[dir="rtl"] .faq-q > span:first-child {
   align-items: center;
 }
 
-html[dir="ltr"] .contact-wrap { direction: ltr; }
-html[dir="rtl"] .contact-wrap { direction: rtl; }
+html[dir="ltr"] .contact-wrap {
+  direction: ltr;
+}
+
+html[dir="rtl"] .contact-wrap {
+  direction: rtl;
+}
 
 .contact-info {
   text-align: start;
@@ -1491,23 +1392,23 @@ html[dir="rtl"] .contact-wrap { direction: rtl; }
 }
 
 html[dir="rtl"] .contact-card input,
-html[dir="rtl"] .contact-card textarea{
+html[dir="rtl"] .contact-card textarea {
   font-family: var(--font-ar-base);
 }
 
 html[dir="ltr"] .contact-card input,
-html[dir="ltr"] .contact-card textarea{
+html[dir="ltr"] .contact-card textarea {
   font-family: var(--font-en-title);
   letter-spacing: 0.02em;
 }
 
 html[dir="rtl"] .contact-card input::placeholder,
-html[dir="rtl"] .contact-card textarea::placeholder{
+html[dir="rtl"] .contact-card textarea::placeholder {
   font-family: var(--font-ar-base);
 }
 
 html[dir="ltr"] .contact-card input::placeholder,
-html[dir="ltr"] .contact-card textarea::placeholder{
+html[dir="ltr"] .contact-card textarea::placeholder {
   font-family: var(--font-en-title);
   letter-spacing: 0.02em;
 }
@@ -1662,7 +1563,7 @@ html[dir="rtl"] .footer-link:hover {
 
 
 /* ===== CR row (Saudi Business Center) — RTL-safe + mobile-safe ===== */
-.cr-number{
+.cr-number {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -1673,7 +1574,7 @@ html[dir="rtl"] .footer-link:hover {
   unicode-bidi: isolate;
 }
 
-.sbc-logo{
+.sbc-logo {
   width: 26px;
   height: 26px;
   object-fit: contain;
@@ -1681,7 +1582,7 @@ html[dir="rtl"] .footer-link:hover {
 }
 
 /* Force the number to stay LTR even inside RTL layout */
-.cr-number .footer-link{
+.cr-number .footer-link {
   direction: ltr;
   unicode-bidi: plaintext;
   white-space: nowrap;
@@ -1689,18 +1590,21 @@ html[dir="rtl"] .footer-link:hover {
 }
 
 /* Control icon position based on language direction */
-html[dir="rtl"] .cr-number{
-  flex-direction: row-reverse; /* Icon on the right in Arabic */
+html[dir="rtl"] .cr-number {
+  flex-direction: row-reverse;
+  /* Icon on the right in Arabic */
 }
 
-html[dir="ltr"] .cr-number{
-  flex-direction: row; /* Icon on the left in English */
+html[dir="ltr"] .cr-number {
+  flex-direction: row;
+  /* Icon on the left in English */
 }
 
 /* Mobile adjustments */
-@media (max-width:560px){
-  .cr-number{
-    flex-wrap: wrap; /* Prevent overflow on small screens */
+@media (max-width:560px) {
+  .cr-number {
+    flex-wrap: wrap;
+    /* Prevent overflow on small screens */
   }
 }
 
@@ -1751,9 +1655,18 @@ html[dir="ltr"] .cr-number{
 }
 
 @media (max-width: 560px) {
-  .partners-marquee { --fade: 84px; }
-  .partners-track { --gap: 46px; --speed: 250s; }
-  .partner-logo { height: 38px; }
+  .partners-marquee {
+    --fade: 84px;
+  }
+
+  .partners-track {
+    --gap: 46px;
+    --speed: 250s;
+  }
+
+  .partner-logo {
+    height: 38px;
+  }
 
   .how-grid {
     grid-template-columns: 1fr;
@@ -1799,15 +1712,40 @@ html[dir="ltr"] .cr-number{
 }
 
 @media (max-width: 520px) {
-  .fp2-stack { height: 340px; }
+  .fp2-stack {
+    height: 340px;
+  }
 
-  .fp2-card.is-active { width: 220px; height: 220px; top: 50%; }
+  .fp2-card.is-active {
+    width: 220px;
+    height: 220px;
+    top: 50%;
+  }
 
-  .fp2-card.is-p1 { width: 90px; height: 90px; left: 10%; top: 62%; }
-  .fp2-card.is-p2 { width: 85px; height: 85px; left: 20%; top: 24%; }
-  .fp2-card.is-p3 { width: 85px; height: 85px; left: 68%; top: 50%; }
+  .fp2-card.is-p1 {
+    width: 90px;
+    height: 90px;
+    left: 10%;
+    top: 62%;
+  }
 
-  .fp2-card img { width: 72%; }
+  .fp2-card.is-p2 {
+    width: 85px;
+    height: 85px;
+    left: 20%;
+    top: 24%;
+  }
+
+  .fp2-card.is-p3 {
+    width: 85px;
+    height: 85px;
+    left: 68%;
+    top: 50%;
+  }
+
+  .fp2-card img {
+    width: 72%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1875,11 +1813,23 @@ html[dir="ltr"] .cr-number{
     left: auto;
   }
 
-  html[dir="rtl"] .nav-menu { right: -100%; left: auto; }
-  html[dir="ltr"] .nav-menu { left: -100%; right: auto; }
+  html[dir="rtl"] .nav-menu {
+    right: -100%;
+    left: auto;
+  }
 
-  html[dir="rtl"] .nav-menu.active { right: 0; }
-  html[dir="ltr"] .nav-menu.active { left: 0; }
+  html[dir="ltr"] .nav-menu {
+    left: -100%;
+    right: auto;
+  }
+
+  html[dir="rtl"] .nav-menu.active {
+    right: 0;
+  }
+
+  html[dir="ltr"] .nav-menu.active {
+    left: 0;
+  }
 
   .nav-item {
     padding: 1rem 0;
@@ -1927,9 +1877,15 @@ html[dir="ltr"] .cr-number{
   margin-inline: auto !important;
 }
 
-#methodology h1, #methodology h2, #methodology h3,
-.impact-section h1, .impact-section h2, .impact-section h3,
-.partners-section h1, .partners-section h2, .partners-section h3 {
+#methodology h1,
+#methodology h2,
+#methodology h3,
+.impact-section h1,
+.impact-section h2,
+.impact-section h3,
+.partners-section h1,
+.partners-section h2,
+.partners-section h3 {
   width: 100%;
   text-align: center !important;
   margin-inline: auto !important;

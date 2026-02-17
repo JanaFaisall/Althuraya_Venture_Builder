@@ -1,26 +1,42 @@
-<!-- index.html -->
+<!-- index.html (FINAL with explanatory comments in English) -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
+  <!-- Basic document metadata:
+         - charset: ensures Arabic text renders correctly
+         - viewport: responsive layout on mobile
+    -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Page title shown in browser tab -->
   <title>ALTHURAYA - Venture Builder</title>
-  <link rel="icon" type="image/png" href="/assets/images/logo.png">
 
+  <!-- Site favicon -->
+  <link rel="icon" type="image/png" href="/assets/images/logo.png" />
 
-  <!-- Fonts -->
+  <!-- Fonts:
+         - preconnect improves font loading performance
+         - Google Fonts provides Amiri, Bellefair, Cairo, Oxanium
+    -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Bellefair&family=Cairo:wght@200..1000&family=Oxanium:wght@200..800&display=swap"
     rel="stylesheet" />
 
+  <!-- Main stylesheet (absolute path so it works from any route/folder) -->
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 
 <body>
-  <!-- BACKGROUND LAYERS ------------------------------------------------------------------------------------------------------------------------>
+  <!-- BACKGROUND LAYERS
+         This wrapper holds decorative background elements behind all sections.
+         - stars-canvas: animated starfield (drawn via JS)
+         - glass-rect: decorative "glass" shapes that can move slightly (parallax) via JS/CSS variables
+         aria-hidden="true" means screen readers ignore it because it's decorative.
+    -->
   <div class="bg-wrap" aria-hidden="true">
     <canvas id="stars-canvas"></canvas>
     <span class="glass-rect gr1"></span>
@@ -28,16 +44,33 @@
     <span class="glass-rect gr3"></span>
   </div>
 
-  <!-- NAVBAR ----------------------------------------------------------------------------------------------------------------------------------->
+  <!-- NAVBAR
+         Main top navigation.
+         Key elements used by JS:
+         - .navbar: for measuring height and scroll offset
+         - .nav-menu / #nav-menu: mobile menu panel toggled by hamburger
+         - .nav-link: links are intercepted for smooth scroll and active-state updates
+         - .lang-toggle: toggles language and switches dir/lang attributes
+         Accessibility notes:
+         - hamburger has role="button", tabindex="0", aria-controls, aria-expanded
+    -->
   <nav class="navbar">
     <div class="nav-container">
+      <!-- Logo linking to the home section -->
       <div class="nav-logo">
         <a href="#home">
+          <!-- data-alt-ar / data-alt-en:
+                 Used by JS to switch the image alt text for accessibility when language changes
+            -->
           <img src="/assets/images/logo.png" class="logo-img" alt="شعار الثريا" data-alt-ar="شعار الثريا"
             data-alt-en="Althuraya Logo" />
         </a>
       </div>
 
+      <!-- Navigation links
+             data-ar / data-en:
+             Used by JS to render the correct text per language
+        -->
       <ul class="nav-menu" id="nav-menu">
         <li class="nav-item">
           <a href="#home" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
@@ -56,6 +89,12 @@
         </li>
       </ul>
 
+      <!-- Language toggle
+             JS reads and writes:
+             - html[lang] and html[dir]
+             - localStorage "language"
+             The "active" class is applied to AR/EN spans to show current selection.
+        -->
       <div class="nav-actions">
         <button class="lang-toggle" type="button" data-lang="ar" aria-label="Toggle Language">
           <span class="lang-option active">AR</span>
@@ -64,6 +103,11 @@
         </button>
       </div>
 
+      <!-- Hamburger icon for mobile menu
+             JS toggles:
+             - .active class on hamburger and nav menu
+             - aria-expanded attribute
+        -->
       <div class="hamburger" aria-label="menu" role="button" tabindex="0" aria-controls="nav-menu"
         aria-expanded="false">
         <span></span><span></span><span></span>
@@ -71,24 +115,45 @@
     </div>
   </nav>
 
-  <!-- HOME ------------------------------------------------------------------------------------------------------------------------------------>
+  <!-- HOME SECTION
+         Landing hero area.
+         hero-title has split text:
+         - data-ar-brand / data-en-brand: the highlighted brand word
+         - data-ar-rest / data-en-rest: the rest of the headline
+         JS rebuilds the innerHTML to wrap the brand part with .brand-gradient.
+    -->
   <section id="home" class="section">
     <h1 class="hero-title" data-ar-brand="الثريا" data-ar-rest=".. حيث يولد الاتجاه" data-en-brand="Althuraya"
       data-en-rest=".. where direction is born">
       <span class="brand-gradient">الثريا</span> .. حيث يولد الاتجاه
     </h1>
+
+    <!-- data-ar / data-en: JS swaps the paragraph content on language toggle -->
     <p data-ar="نؤسس مشاريع استراتيجية، نقود تشغيلها، ونراكم قيمتها على المدى الطويل."
       data-en="We establish strategic ventures, lead their operations, and compound their value over the long term.">
       نؤسس مشاريع استراتيجية، نقود تشغيلها، ونراكم قيمتها على المدى الطويل.
     </p>
 
+    <!-- Hero buttons
+           JS attaches click handlers:
+           - .main-btn scrolls to #projects
+           - .secondary-btn scrolls to #contact
+      -->
     <div class="hero-buttons">
-      <button class="main-btn" type="button" data-ar="استعراض المشاريع" data-en="Explore Ventures">استعراض
-        المشاريع</button>
-      <button class="secondary-btn" type="button" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</button>
+      <button class="main-btn" type="button" data-ar="استعراض المشاريع" data-en="Explore Ventures">
+        استعراض المشاريع
+      </button>
+      <button class="secondary-btn" type="button" data-ar="تواصل معنا" data-en="Contact Us">
+        تواصل معنا
+      </button>
     </div>
   </section>
 
+  <!-- PARTNERS SECTION
+         Infinite marquee (scrolling logos).
+         The second .partners-group duplicates the logos for seamless looping.
+         aria-hidden="true" on the duplicate avoids repeated announcements by screen readers.
+    -->
   <section class="partners-section" aria-label="Success Partners">
     <h1 class="partners-label" data-ar="شركاء النجاح" data-en="Success Partners">شركاء النجاح</h1>
 
@@ -96,105 +161,34 @@
       <div class="partners-track" id="partnersTrack">
         <div class="partners-group">
           <img src="/assets/images/logo-Ministry-of-Industry.png" class="partner-logo" alt="وزارة الصناعة"
-            style="height:150px;">
-          <img src="/assets/images/logo-NIDLP.png" class="partner-logo" alt="ندلب">
-          <img src="/assets/images/logo-ministry-of-communications.png" class="partner-logo" alt="وزارة الاتصالات">
-          <img src="/assets/images/logo-JADA30.png" class="partner-logo" alt="جادة 30" style="height:150px;">
-          <img src="/assets/images/logo-social-development-bank.png" class="partner-logo" alt="بنك التنمية">
-          <img src="/assets/images/logo-munshaat.png" class="partner-logo" alt="منشآت">
+            style="height:150px;" />
+          <img src="/assets/images/logo-NIDLP.png" class="partner-logo" alt="ندلب" />
+          <img src="/assets/images/logo-ministry-of-communications.png" class="partner-logo" alt="وزارة الاتصالات" />
+          <img src="/assets/images/logo-JADA30.png" class="partner-logo" alt="جادة 30" style="height:150px;" />
+          <img src="/assets/images/logo-social-development-bank.png" class="partner-logo" alt="بنك التنمية" />
+          <img src="/assets/images/logo-munshaat.png" class="partner-logo" alt="منشآت" />
         </div>
 
         <div class="partners-group" aria-hidden="true">
-          <img src="/assets/images/logo-Ministry-of-Industry.png" class="partner-logo" alt="" style="height:150px;">
-          <img src="/assets/images/logo-NIDLP.png" class="partner-logo" alt="">
-          <img src="/assets/images/logo-ministry-of-communications.png" class="partner-logo" alt="">
-          <img src="/assets/images/logo-JADA30.png" class="partner-logo" alt="" style="height:150px;">
-          <img src="/assets/images/logo-social-development-bank.png" class="partner-logo" alt="">
-          <img src="/assets/images/logo-munshaat.png" class="partner-logo" alt="">
+          <img src="/assets/images/logo-Ministry-of-Industry.png" class="partner-logo" alt="" style="height:150px;" />
+          <img src="/assets/images/logo-NIDLP.png" class="partner-logo" alt="" />
+          <img src="/assets/images/logo-ministry-of-communications.png" class="partner-logo" alt="" />
+          <img src="/assets/images/logo-JADA30.png" class="partner-logo" alt="" style="height:150px;" />
+          <img src="/assets/images/logo-social-development-bank.png" class="partner-logo" alt="" />
+          <img src="/assets/images/logo-munshaat.png" class="partner-logo" alt="" />
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PROJECT CARDS WITH CONTROLLER
-  <!-- PROJECTS ----------------------------------------------------------------------------------------------------------
-  <section id="projects" class="section fp2" aria-label="Featured projects">
-    <!-- <h1  data-ar="مشاريعنا" data-en="Our Ventures">مشاريعنا</h1> --
-    <div class="fp2-wrap">
-
-      <!-- LEFT: STACK --
-      <div class="fp2-visual" aria-label="Project stack">
-        <div class="fp2-stack" id="fp2Stack">
-          <!-- cards --
-          <button class="fp2-card" style="--accent:#ff8cd194;" data-ar-title="بيوتي كوبز" data-en-title="Beauty Cops"
-            data-ar-desc=" منصة تقنية تعمل على دمج الذكاء الاصطناعي مع عالم التجميل، لجعل المكونات، التركيبات، والمنتجات أكثر فهمًا، أكثر شفافية، وأكثر أمانًا لكل من المستخدمين والجهات العاملة في هذا القطاع."
-            data-en-desc="A technology platform that integrates artificial intelligence with the beauty industry, making ingredients, formulations, and products more understandable, more transparent, and safer for both consumers and professionals working in this sector"
-            data-link="https://beautycops.com/" type="button">
-            <img src="/assets/images/beauty-cops-logo.png" alt="Beauty Cops" />
-          </button>
-
-          <button class="fp2-card " style="--accent:#aa60ff8b;" data-ar-title="دعوات الثريا"
-            data-en-title="Althuraya Invitations"
-            data-ar-desc="منصة رقمية متخصصة في تصميم وإدارة الدعوات الإلكترونية بأسلوب عصري وتجربة استخدام أنيقة، تتيح إنشاء دعوات مخصصة بسهولة، مع حلول ذكية للتوزيع، التنظيم، والمتابعة، لتقديم تجربة متكاملة تناسب المناسبات الخاصة والفعاليات الحديثة"
-            data-en-desc="Digital platform specialized in designing and managing electronic invitations with a modern style and elegant user experience, enabling easy creation of customized invitations, with smart solutions for distribution, organization, and tracking to provide a complete experience tailored to special occasions and modern events."
-            data-link="https://althuraya.store/" type="button">
-            <img src="/assets/images/althuraya-logo.png" alt="Althuraya Store"
-              style="filter: brightness(0) invert(1);" />
-          </button>
-
-          <button class="fp2-card" style="--accent: #a7feeb87;" data-ar-title="الثريا لتقنيات وحلول أشباه الموصلات"
-            data-en-title="ASTS"
-            data-ar-desc="نطوّر أنظمة تدريب، اختبار، ومحاكاة تحاكي الواقع الصناعي لصناعة أشباه الموصلات — من المختبر إلى التطبيق العملي."
-            data-en-desc="We develop training, testing, and simulation systems that mirror real-world semiconductor manufacturing — from lab environments to real-world application."
-            data-link="#contact" type="button">
-            <img src="/assets/images/ASTS-logo.png" alt="ASTS" />
-          </button>
-
-          <button class="fp2-card" style="--accent:#b896f7;" data-ar-title="مشاريع خاصة"
-            data-en-title="Private Projects"
-            data-ar-desc="ننـشئ وندير عدة مشاريع خاصة في قطاع التقنية المالية وعدد من القطاعات الواعدة الأخرى، يتم تطويرها داخليًا من الفكرة إلى المنتج مع التركيز على حلول عملية قابلة للنمو."
-            data-en-desc="We build and manage a set of private internal projects across fintech and other promising sectors, developed from concept to product with a focus on practical, scalable solutions."
-            data-link="#contact" type="button">
-            <img src="/assets/icons/icon-privateprojects.png" alt="Private Projects" />
-          </button>
-        </div>
-
-        <!--SMART BUDGET (commented out for now)
-        <button class="fp2-card"
-          style="--accent:#4da3ff93;"
-          data-ar-title="سمارت بدجت"
-          data-en-title="Smart Budget"
-          data-ar-desc= "منصة مالية ذكية تساعد الأفراد والشركات على إدارة الميزانيات بوضوح ودقة، من خلال تحليل البيانات، تتبع المصروفات، وتقديم رؤى ذكية تدعم اتخاذ قرارات مالية أفضل."
-          data-en-desc="A smart financial platform that helps individuals and businesses manage budgets with clarity and precision, using data analysis, expense tracking, and intelligent insights to support better financial decision-making."
-          type="button">
-          <img src="/assets/images/smart-budget-logo.png" alt="Smart Budget" />
-        </button> -->
-
-  <!-- Add more project cards as needed --
-
-        <div class="fp2-controls" aria-label="Project controls">
-          <button class="fp2-nav fp2-prev" type="button" aria-label="Previous">‹</button>
-          <div class="fp2-dots" id="fp2Dots" aria-hidden="true"></div>
-          <button class="fp2-nav fp2-next" type="button" aria-label="Next">›</button>
-        </div>
-      </div>
-
-      <!-- RIGHT: TEXT --
-      <div class="fp2-info">
-        <h1 class="fp2-title" id="fp2Title">عنوان المشروع</h1>
-        <p class="fp2-desc" id="fp2Desc">
-          وصف المشروع
-        </p>
-        <a style="text-decoration: none;" class="main-btn" id="fp2ViewProjectBtn" href="#" target="_blank"
-          rel="noopener" data-ar="الاطلاع على المشروع" data-en="View Project">الاطلاع على المشروع</a>
-      </div>
-
-    </div>
-  </section> -->
-
-  <!-- PROJECTS (SIMPLE ROWS - NO CONTROLS) -->
+  <!-- PROJECTS SECTION
+         Featured projects list.
+         Each article has:
+         - projects-row: layout row
+         - is-reverse: flips media/text order
+         - style="--accent: ...": sets a CSS custom property used for theming effects per project
+    -->
   <section id="projects" class="section projects" aria-label="Featured projects">
-
     <!-- Project 1 -->
     <article class="projects-row" style="--accent:#ff8cd194;">
       <div class="project-media">
@@ -212,6 +206,7 @@
           شفافية، وأكثر أمانًا لكل من المستخدمين والجهات العاملة في هذا القطاع.
         </p>
 
+        <!-- External links should include target="_blank" and rel="noopener" for security -->
         <a class="main-btn project-btn" href="https://beautycops.com/" target="_blank" rel="noopener"
           data-ar="الاطلاع على المشروع" data-en="View Project">الاطلاع على المشروع</a>
       </div>
@@ -221,6 +216,7 @@
     <article class="projects-row is-reverse" style="--accent:#aa60ff8b;">
       <div class="project-media">
         <div class="project-card">
+          <!-- filter: brightness(0) invert(1) forces the logo to appear white on dark backgrounds -->
           <img src="/assets/images/althuraya-logo.png" alt="Althuraya Store" style="filter: brightness(0) invert(1);" />
         </div>
       </div>
@@ -257,6 +253,7 @@
           نطوّر أنظمة تدريب، اختبار، ومحاكاة تحاكي الواقع الصناعي لصناعة أشباه الموصلات — من المختبر إلى التطبيق العملي.
         </p>
 
+        <!-- Internal anchor link (same page) -->
         <a class="main-btn project-btn" href="#contact" data-ar="تواصل معنا" data-en="Contact us">تواصل معنا</a>
       </div>
     </article>
@@ -281,11 +278,13 @@
         <a class="main-btn project-btn" href="#contact" data-ar="تواصل معنا" data-en="Contact us">تواصل معنا</a>
       </div>
     </article>
-
   </section>
 
-  <!-- METHODOLOGY ----------------------------------------------------------------------------------------------------------------------------------->
-  <section id="methodology" class=" how-section">
+  <!-- METHODOLOGY SECTION
+         "How we work" cards explaining the process.
+         is-highlight is a styling hook (special emphasis).
+    -->
+  <section id="methodology" class="how-section">
     <div class="how-wrap">
       <h1 class="how-title" data-ar="كيف نعمل" data-en="How We Work">كيف نعمل</h1>
       <p class="how-subtitle" data-ar="منهجية مُثبتة من الفكرة إلى التوسع"
@@ -294,10 +293,10 @@
       </p>
 
       <div class="how-grid">
-        <!-- 1 -->
         <article class="how-card is-highlight">
           <div class="how-icon">
-            <img src="/assets/icons/methodology1.png" alt="" aria-hidden="true">
+            <!-- aria-hidden on the image means the icon is decorative (title/text already explains it) -->
+            <img src="/assets/icons/methodology1.png" alt="" aria-hidden="true" />
           </div>
           <h3 class="how-card-title" data-ar="الاستكشاف" data-en="Exploration">الاستكشاف</h3>
           <p class="how-card-text" data-ar="تحليل الثغرات في السوق واقتناص الفرص النوعية"
@@ -306,10 +305,9 @@
           </p>
         </article>
 
-        <!-- 2 -->
         <article class="how-card is-highlight">
           <div class="how-icon">
-            <img src="/assets/icons/methodology2.png" alt="" aria-hidden="true">
+            <img src="/assets/icons/methodology2.png" alt="" aria-hidden="true" />
           </div>
           <h3 class="how-card-title" data-ar="التحقق" data-en="Validation">التحقق</h3>
           <p class="how-card-text" data-ar="بناء النماذج الأولية واختبار الجدوى بأدوات دقيقة"
@@ -318,10 +316,9 @@
           </p>
         </article>
 
-        <!-- 3 -->
         <article class="how-card is-highlight">
           <div class="how-icon">
-            <img src="/assets/icons/methodology3.png" alt="" aria-hidden="true">
+            <img src="/assets/icons/methodology3.png" alt="" aria-hidden="true" />
           </div>
           <h3 class="how-card-title" data-ar="التأسيس" data-en="Foundation">التأسيس</h3>
           <p class="how-card-text" data-ar="إطلاق المنتج الكامل عبر فرق هندسية عالية التأهيل"
@@ -330,10 +327,9 @@
           </p>
         </article>
 
-        <!-- 4 -->
         <article class="how-card is-highlight">
           <div class="how-icon">
-            <img src="/assets/icons/methodology4.png" alt="" aria-hidden="true">
+            <img src="/assets/icons/methodology4.png" alt="" aria-hidden="true" />
           </div>
           <h3 class="how-card-title" data-ar="التوسع" data-en="Expansion">التوسع</h3>
           <p class="how-card-text" data-ar="قيادة استراتيجيات النمو والوصول إلى الأسواق العالمية"
@@ -345,11 +341,13 @@
     </div>
   </section>
 
-
-  <!-- IMPACT ------------------------------------------------------------------------------------------------------------------------------------->
+  <!-- IMPACT SECTION
+         Animated counters:
+         - .impact-number has data-target (final number) and optional data-suffix (like "+")
+         JS uses IntersectionObserver to animate when #impact enters the viewport.
+    -->
   <section id="impact" class="section impact-section">
     <div class="impact-wrap">
-
       <h1 class="impact-title" data-ar="أثرنا" data-en="Our Impact">أثرنا</h1>
 
       <p class="impact-subtitle" data-ar="قياس النجاح من خلال نتائج ملموسة"
@@ -358,10 +356,9 @@
       </p>
 
       <div class="impact-grid">
-
         <article class="impact-card">
           <div class="impact-number" data-target="5" data-suffix="+">0</div>
-          <p class="impact-text" data-ar="قطاعات استراتيجية" data-en="Strategic Ventures" suffix="+">
+          <p class="impact-text" data-ar="قطاعات استراتيجية" data-en="Strategic Ventures">
             قطاعات استراتيجية
           </p>
         </article>
@@ -379,35 +376,31 @@
             تخارج ناجح
           </p>
         </article>
-        <!--  
-        <article class="impact-card">
-          <div class="impact-number" data-target="25" data-prefix="$" data-suffix="M">0</div>
-          <p class="impact-text" data-ar="تمويل استراتيجي تم جمعه" data-en="Strategic Funding Raised">
-            تمويل استراتيجي تم جمعه
-          </p>
-        </article>
-        -->
+
         <article class="impact-card">
           <div class="impact-number" data-target="30" data-suffix="+">0</div>
-          <p class="impact-text" data-ar="كفاءة من فريق العمل" data-en="Team Efficiency" suffix="+">
+          <p class="impact-text" data-ar="كفاءة من فريق العمل" data-en="Team Efficiency">
             كفاءة من فريق العمل
           </p>
         </article>
-
       </div>
     </div>
   </section>
 
-
-  <!-- FAQ ---------------------------------------------------------------------------------------------------------------------------------------->
+  <!-- FAQ SECTION
+         Uses <details> and <summary>:
+         - Native HTML accordion behavior without extra JS
+         - Accessible by default (keyboard + screen readers)
+    -->
   <section id="faq" class="section faq-section" aria-label="Frequently Asked Questions">
     <div class="faq-head">
-      <h1 class="faq-title" data-en="Frequently Asked Questions" data-ar="الأسئلة الشائعة">Frequently Asked Questions
-        </h2>
-        <p class="faq-sub" data-en="Everything you need to know about working with us"
-          data-ar="كل ما تحتاج معرفته عن العمل معنا">
-          Everything you need to know about working with us
-        </p>
+      <h1 class="faq-title" data-en="Frequently Asked Questions" data-ar="الأسئلة الشائعة">
+        Frequently Asked Questions
+      </h1>
+      <p class="faq-sub" data-en="Everything you need to know about working with us"
+        data-ar="كل ما تحتاج معرفته عن العمل معنا">
+        Everything you need to know about working with us
+      </p>
     </div>
 
     <div class="faq-list">
@@ -489,11 +482,14 @@
     </div>
   </section>
 
-
-  <!-- CONTACT -------------------------------------------------------------------------------------------------------------------------------------->
+  <!-- CONTACT SECTION
+         Two columns:
+         - contact-info: static information and icons
+         - contact-card: form that triggers sendMail(event) in JS
+         Placeholders and labels have data-ar / data-en and data-*-placeholder for language switching.
+    -->
   <section id="contact" class="section contact-section">
     <div class="contact-wrap">
-      <!-- INFO -->
       <div class="contact-info">
         <h1 class="contact-title" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</h1>
         <p class="contact-subtitle" data-ar="فريقنا جاهز للإجابة على استفساراتكم ومناقشة آفاق التعاون المشترك."
@@ -551,9 +547,11 @@
         </div>
       </div>
 
-      <!-- FORM -->
-      <form class="contact-card" onsubmit="sendMail(event)" autocomplete="on" action="mailto:info@althuraya.com"
-        method="POST" enctype="text/plain">
+      <!-- Form submission:
+             onsubmit="sendMail(event)" prevents default submission and opens a mailto link created in JS.
+             This avoids inconsistent behavior across browsers with mailto + POST settings.
+        -->
+      <form class="contact-card" onsubmit="sendMail(event)" autocomplete="on">
         <div class="field">
           <label for="fullName" data-ar="الاسم الكامل" data-en="Full Name">الاسم الكامل</label>
           <input id="fullName" name="Full Name" type="text" placeholder="أدخل اسمك الكامل"
@@ -585,12 +583,16 @@
     </div>
   </section>
 
-
-  <!-- FOOTER -------------------------------------------------------------------------------------------------------------------------------------->
+  <!-- FOOTER
+         Site footer contains:
+         - Brand block (logo + short description)
+         - Quick links
+         - Other info (commercial registration)
+         - Social links (email, LinkedIn)
+         footer-bottom text has data-ar/data-en so JS can switch the copyright line.
+    -->
   <footer class="site-footer" id="footer">
     <div class="footer-inner">
-
-      <!-- Brand -->
       <div class="footer-brand">
         <img src="/assets/images/logo2.png" class="footer-logo-img" alt="Althuraya Logo" data-alt-ar="شعار الثريا"
           data-alt-en="Althuraya Logo" />
@@ -601,7 +603,6 @@
         </p>
       </div>
 
-      <!--About Us -->
       <div class="footer-col">
         <h4 class="footer-title" data-ar="روابط سريعة" data-en="Quick Links">روابط سريعة</h4>
         <ul class="footer-links">
@@ -611,19 +612,6 @@
         </ul>
       </div>
 
-      <!-- Projects 
-      <div class="footer-col">
-        <h4 class="footer-title" data-ar="مشاريعنا" data-en="Our Projects">مشاريعنا</h4>
-        <ul class="footer-links">
-          <li><a href="https://beautycops.com/" class="footer-link" data-ar="بيوتي كوبز"
-              data-en="Beauty Cops Website">بيوتي كوبز</a></li>
-          <li><a href="https://althuraya.store/" class="footer-link" data-ar="متجر الثريا"
-              data-en="Althuraya Store Website">متجر الثريا</a></li>
-        </ul>
-      </div>
-       -->
-
-      <!-- Other Info -->
       <div class="footer-col">
         <h4 class="footer-title" data-ar="معلومات أخرى" data-en="Other Info">معلومات أخرى</h4>
         <ul class="footer-links">
@@ -631,6 +619,7 @@
             <p data-ar="السجل التجاري" data-en="Commercial Registration">السجل التجاري</p>
           </li>
           <li>
+            <!-- cr-number includes an icon + number styled together -->
             <div class="cr-number">
               <img src="/assets/images/logo-saudi-business-center.png" alt="Saudi Business Center Logo"
                 class="sbc-logo" />
@@ -640,7 +629,6 @@
         </ul>
       </div>
 
-      <!-- Connect -->
       <div class="footer-col">
         <h4 class="footer-title" data-ar="تواصل" data-en="Connect">Connect</h4>
 
@@ -652,14 +640,8 @@
             aria-label="LinkedIn">
             <img src="/assets/icons/icon-linkedin.png" alt="LinkedIn" />
           </a>
-          <!--
-          <a class="social-btn" href="#" aria-label="Twitter/X">
-            <img src="/assets/icons/icon-x.png" alt="X" />
-          </a>
-          -->
         </div>
       </div>
-
     </div>
 
     <div class="footer-bottom" data-ar="© 2026 الثريا مصنع الشركات. جميع الحقوق محفوظة"
@@ -668,9 +650,11 @@
     </div>
   </footer>
 
-  <!-- SCRIPTS -------------------------------------------------------------------------------------------------------------------------------------->
-  <script src="assets/js/script.js" defer></script>
-
+  <!-- SCRIPTS
+         defer ensures the script runs after HTML is parsed.
+         Absolute path avoids issues if the page is served from a nested route.
+    -->
+  <script src="/assets/js/script.js" defer></script>
 </body>
 
 </html>
