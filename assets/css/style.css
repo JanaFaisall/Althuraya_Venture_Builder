@@ -64,18 +64,42 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* Includes padding/border inside width/height calculations */
+}
+
+html,
+body {
+  min-height: 100%;
 }
 
 html {
   scroll-behavior: smooth;
   /* Smooth scrolling for anchor links */
 
-  /* Consistent anchor offset for all section IDs:
-     - When clicking navbar links (#contact etc.), this prevents content
-       from hiding behind the fixed navbar.
-     - scroll-padding-top affects where the browser "stops" after scrolling to an anchor. */
   scroll-padding-top: calc(var(--nav-h) + 12px);
+  /* Prevent anchor content from hiding behind fixed navbar */
+
+  background: #0b0c10;
+  /* Root fallback */
+
+  position: relative;
+  /* Needed so z-index layering behaves consistently */
+}
+
+
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: url("/assets/images/background.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 body {
@@ -83,30 +107,24 @@ body {
   line-height: 1.6;
   color: #fff;
   overflow-x: hidden;
-  /* Prevents accidental horizontal scrolling */
-  background: #0b0c10 url("/assets/images/background.png") center / cover no-repeat fixed;
-  /* background shorthand breakdown:
-     - #0b0c10                       => fallback color
-     - url(...)                      => image layer
-     - center / cover                => position / size
-     - no-repeat                     => do not tile
-     - fixed                         => stays fixed while scrolling */
+  background: transparent;
+  position: relative;
+  z-index: 1;
   transition: font-family 0.3s ease;
-  /* Smooth font swap when switching language */
 }
 
-/* Direction + base font by document direction
-   - html[dir="rtl"] selects <html dir="rtl"> (Arabic)
-   - html[dir="ltr"] selects <html dir="ltr"> (English) */
+/* RTL (Arabic) */
 html[dir="rtl"] body {
   direction: rtl;
   font-family: var(--font-ar-base);
 }
 
+/* LTR (English) */
 html[dir="ltr"] body {
   direction: ltr;
   font-family: var(--font-en-base);
 }
+
 
 /* Media elements default safety:
    - max-width prevents overflow on smaller screens. */

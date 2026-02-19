@@ -555,19 +555,19 @@
       <form class="contact-card" onsubmit="sendMail(event)" autocomplete="on">
         <div class="field">
           <label for="fullName" data-ar="الاسم الكامل" data-en="Full Name">الاسم الكامل</label>
-          <input id="fullName" name="Full Name" type="text" placeholder="أدخل اسمك الكامل"
+          <input id="fullName" name="Full Name" type="text" placeholder="أدخل اسمك الكامل"  autocomplete="name"
             data-ar-placeholder="أدخل اسمك الكامل" data-en-placeholder="Enter your full name" required />
         </div>
 
         <div class="field">
           <label for="email" data-ar="البريد الإلكتروني" data-en="Email Address">البريد الإلكتروني</label>
-          <input id="email" name="Email" type="email" placeholder="أدخل بريدك الإلكتروني"
+          <input id="email" name="Email" type="email" placeholder="أدخل بريدك الإلكتروني" autocomplete="email"
             data-ar-placeholder="أدخل بريدك الإلكتروني" data-en-placeholder="Enter your email address" required />
         </div>
 
         <div class="field">
           <label for="message" data-ar="الرسالة" data-en="Message">الرسالة</label>
-          <textarea id="message" name="Message" rows="5" placeholder="كيف يمكننا مساعدتك؟"
+          <textarea id="message" name="Message" rows="5" placeholder="كيف يمكننا مساعدتك؟" autocomplete="off"
             data-ar-placeholder="كيف يمكننا مساعدتك؟" data-en-placeholder="How can we help you?" required></textarea>
         </div>
 
