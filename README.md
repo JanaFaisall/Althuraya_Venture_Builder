@@ -1,11 +1,10 @@
-# Althuraya Venture Builder
+# ALTHURAYA - Venture Builder
 
-Official bilingual portfolio website for the parent company, Althuraya Venture Builder.
+Designed, developed, and deployed the official bilingual portfolio website for Althuraya Venture Builder during my internship.
+Led the full front-end implementation from scratch, structured the site architecture, built responsive UI components, 
+implemented Arabic/English (RTL/LTR) support, and managed deployment using Netlify with GitHub integration.
 
-## Overview
-This project presents Althuraya’s ventures, impact, methodology, and partner ecosystem through a modern, clean UI with full Arabic/English (RTL/LTR) support.
-
-## Website Sections
+## 🧩 Website Sections
 - Home
 - Success Partners
 - Ventures
@@ -14,13 +13,17 @@ This project presents Althuraya’s ventures, impact, methodology, and partner e
 - FAQ
 - Contact
 
-## Tech Stack
+## 🔧 Tools
 - HTML
 - CSS
 - JavaScript
+- GitHub
+- Hosted using Netlify
+- Prompt Engineering & AI-assisted Web Development Tools
 
-## Deployment
-Hosted using Netlify
-
-## Demo
+## 🌐 Live Demo
 https://althuraya.netlify.app/
+
+## 📸 Images
+
+![Home Preview](README_images/website-preview.png)
