@@ -26,4 +26,4 @@ https://althuraya.netlify.app/
 
 ## 📸 Images
 
-![Home Preview](README_images/website-preview.png)
+![Home Preview](website-preview.png)
