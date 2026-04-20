@@ -1,4 +1,4 @@
-## ALTHURAYA – Front-End Portfolio Website (Bilingual, RTL/LTR)
+# Althuraya Venture Builder – Front-End Portfolio Website (Bilingual, RTL/LTR)
 
 Designed, developed, and deployed the official bilingual portfolio website for Althuraya Venture Builder during my internship.
 Led the full front-end implementation from scratch, structured the site architecture, built responsive UI components, 
